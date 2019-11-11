@@ -8,6 +8,11 @@ app.use(express.json())
 
 // import routes
 const postsRoute = require('./routes/posts')
+
+
+app.get('/', function(req, res) {
+    res.send('hello world');
+})
 app.use('/posts', postsRoute)
 
 const authRoute = require('./routes/auth')
@@ -17,6 +22,6 @@ app.use('/user', authRoute)
 mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true},
     () => console.log('connected to DB'))
 
-app.listen(3000, () => {
-    console.log('listening on port 3000')
+app.listen(8080, () => {
+    console.log('listening on port 8080')
 })
