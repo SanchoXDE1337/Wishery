@@ -14,6 +14,9 @@ app.use('/posts', postsRoute)
 const authRoute = require('./routes/auth')
 app.use('/user', authRoute)
 
+const privateRoute = require('./routes/private')
+app.use('/private', privateRoute)
+
 app.get('/', function(req, res) {
     res.send('hello world');
 })

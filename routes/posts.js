@@ -24,12 +24,22 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const post = new Post({
+        author: req.body.author,
         title: req.body.title,
         description: req.body.description
     })
     try {
         const savedPost = await post.save()
         await res.json(savedPost)
+    } catch (e) {
+        await res.json({message: e})
+    }
+})
+
+router.put('/:id', async (req, res) => {
+    try {
+        const updated = await Post.findByIdAndUpdate({_id: req.params.id}, req.body)
+        await res.send(`Updated. id: ${req.params.id}`)
     } catch (e) {
         await res.json({message: e})
     }
@@ -46,13 +56,5 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.put('/:id', async (req, res) => {
-    try {
-        const updated = await Post.findByIdAndUpdate({_id: req.params.id}, req.body)
-        await res.json(updated)
-    } catch (e) {
-        await res.json({message: e})
-    }
-})
 
 module.exports = router
