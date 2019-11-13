@@ -46,12 +46,9 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.patch('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
-        const updated = await Post.updateOne(
-            {_id: req.params.id},
-            {$set: {title: req.body.title, description: req.body.description}}
-        )
+        const updated = await Post.findByIdAndUpdate({_id: req.params.id}, req.body)
         await res.json(updated)
     } catch (e) {
         await res.json({message: e})
