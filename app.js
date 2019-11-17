@@ -17,9 +17,11 @@ app.use('/user', authRoute)
 const privateRoute = require('./routes/private')
 app.use('/private', privateRoute)
 
-app.get('/', function(req, res) {
-    res.send('hello world');
-})
+const homeRoute = require('./routes/home')
+app.use('/', homeRoute)
+
+const commentRoute = require('./routes/comments')
+app.use('/comments', commentRoute)
 
 //connect to db
 mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true},

@@ -13,14 +13,6 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
-    try {
-        const posts = await Post.find({})
-        await res.json(posts)
-    } catch (e) {
-        await res.json({message: e})
-    }
-})
 
 router.post('/', async (req, res) => {
     const post = new Post({
