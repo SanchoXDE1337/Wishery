@@ -3,7 +3,9 @@ const router = express.Router()
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const {registerValidation, loginValidation} = require('../validation')
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
+const verify = require('../verifyToken')
+
 
 router.post('/register', async (req, res) => {
     const {error} = registerValidation(req.body)
@@ -55,59 +57,8 @@ router.post('/login', async (req, res) => {
     res.header('auth-token', token).send([token, user._id])
 })
 
-/*// routers
-router.get('/:id', async (req, res) => {
-    try {
-        const posts = await Post.findById(req.params.id)
-        await res.json(posts)
-    } catch (e) {
-        await res.json({message: e})
-    }
+router.get('/isAuth', verify, async (req, res) => {
+    res.send(true)
 })
-
-router.get('/', async (req, res) => {
-    try {
-        const posts = await Post.find({})
-        await res.json(posts)
-    } catch (e) {
-        await res.json({message: e})
-    }
-})
-
-router.post('/', async (req, res) => {
-    const post = new Post({
-        title: req.body.title,
-        description: req.body.description
-    })
-    try {
-        const savedPost = await post.save()
-        await res.json(savedPost)
-    } catch (e) {
-        await res.json({message: e})
-    }
-})
-
-router.delete('/:id', async (req, res) => {
-    try {
-        const removedPost = await Post.deleteOne({
-            _id: req.params.id
-        })
-        await res.json(removedPost)
-    } catch (e) {
-        await res.json({message: e})
-    }
-})
-
-router.patch('/:id', async (req, res) => {
-    try {
-        const updated = await Post.updateOne(
-            {_id: req.params.id},
-            {$set: {title: req.body.title, description: req.body.description}}
-        )
-        await res.json(updated)
-    } catch (e) {
-        await res.json({message: e})
-    }
-})*/
 
 module.exports = router
