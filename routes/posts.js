@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const User = require('../models/User')
 
 const Post = require('../models/Post')
 
@@ -15,14 +16,15 @@ router.get('/:id', async (req, res) => {
 
 
 router.post('/', async (req, res) => {
-    const post = new Post({
-        author: req.body.author,
-        title: req.body.title,
-        description: req.body.description
-    })
     try {
-        const savedPost = await post.save()
-        await res.json(savedPost)
+        const author = (await User.findById(req.body.author)).username
+        const post = new Post({
+            author,
+            title: req.body.title,
+            description: req.body.description
+        })
+        await post.save()
+        await res.send('Added!')
     } catch (e) {
         await res.json({message: e})
     }
@@ -30,12 +32,17 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        const updated = await Post.findByIdAndUpdate({_id: req.params.id}, req.body)
+        const author = (await User.findById(req.body.author)).username
+        const updated = await Post.findOneAndUpdate({_id: req.params.id}, {
+            author,
+            title: req.body.title,
+            description: req.body.description
+        })
         await res.send(`Updated. id: ${req.params.id}`)
     } catch (e) {
         await res.json({message: e})
     }
-})
+});
 
 router.delete('/:id', async (req, res) => {
     try {

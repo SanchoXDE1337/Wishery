@@ -24,7 +24,7 @@ const commentRoute = require('./routes/comments')
 app.use('/comments', commentRoute)
 
 //connect to db
-mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true},
+mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false},
     () => console.log('connected to DB'))
 
 app.listen(8080, () => {

@@ -61,4 +61,4 @@ router.get('/isAuth', verify, async (req, res) => {
     res.send(true)
 })
 
-module.exports = router
+module.exports = router;
