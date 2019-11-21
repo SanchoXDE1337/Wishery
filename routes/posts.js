@@ -42,7 +42,7 @@ router.put('/:id', async (req, res) => {
     } catch (e) {
         await res.json({message: e})
     }
-});
+})
 
 router.delete('/:id', async (req, res) => {
     try {
@@ -53,7 +53,7 @@ router.delete('/:id', async (req, res) => {
     } catch (e) {
         await res.json({message: e})
     }
-})
+});
 
 
 module.exports = router
