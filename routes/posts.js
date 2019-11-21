@@ -21,7 +21,8 @@ router.post('/', async (req, res) => {
         const post = new Post({
             author,
             title: req.body.title,
-            description: req.body.description
+            description: req.body.description,
+            theme: req.body.theme
         })
         await post.save()
         await res.send('Added!')
@@ -33,10 +34,11 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const author = (await User.findById(req.body.author)).username
-        const updated = await Post.findOneAndUpdate({_id: req.params.id}, {
+        await Post.findOneAndUpdate({_id: req.params.id}, {
             author,
             title: req.body.title,
-            description: req.body.description
+            description: req.body.description,
+            theme: req.body.theme
         })
         await res.send(`Updated. id: ${req.params.id}`)
     } catch (e) {
@@ -53,7 +55,8 @@ router.delete('/:id', async (req, res) => {
     } catch (e) {
         await res.json({message: e})
     }
-});
+})
+
 
 
 module.exports = router
