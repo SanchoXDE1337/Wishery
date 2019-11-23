@@ -4,16 +4,12 @@
   "description": "Node | Express | Mongo | React | Redux",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ajspeller/rest-api-dev-ed.git"
+    "start": "nodemon server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
-  "author": "",
+  "author": "SanchoXD",
   "license": "ISC",
-  "homepage": "https://github.com/ajspeller/rest-api-dev-ed#readme",
   "dependencies": {
     "@hapi/joi": "^16.1.7",
     "bcryptjs": "^2.4.3",

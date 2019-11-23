@@ -1,4 +1,7 @@
 .idea
+./client/node_modules
+./client/build
+./client/build
 # Logs
 logs
 *.log
@@ -60,3 +63,4 @@ typings/
 
 # next.js build output
 .next
+/client/node_modules/
