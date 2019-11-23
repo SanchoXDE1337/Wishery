@@ -1,10 +1,12 @@
 require('dotenv/config')
 
 const express = require('express')
-const server = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
+
+const server = express()
+
 server.use(express.json())
 server.use(cors())
 
@@ -32,9 +34,11 @@ mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTo
 
 
 if (process.env.NODE_ENV === 'production') {
+    // Serve any static files
     server.use(express.static(path.join(__dirname, 'client/build')))
-    server.get('*', (res, req) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    // Handle React routing, return all requests to React app
+    server.get('*', function (req, res) {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
     })
 }
 
