@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
+const verify = require('../verifyToken')
 
 const Post = require('../models/Post')
 
@@ -15,7 +16,7 @@ router.get('/:id', async (req, res) => {
 })
 
 
-router.post('/', async (req, res) => {
+router.post('/', verify, async (req, res) => {
     try {
         const author = (await User.findById(req.body.author)).username
         const post = new Post({
