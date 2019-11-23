@@ -44,7 +44,7 @@ class _Private extends React.Component<IProps, IState> {
 
     componentDidMount() {
         const {id, token} = this.props
-        axios(`http://localhost:8080/private/${id}`, {headers: {'auth-token': token}})
+        axios(`/private/${id}`, {headers: {'auth-token': token}})
             .then(res => {
                 this.setState({isAuth: true})
             })
@@ -59,7 +59,7 @@ class _Private extends React.Component<IProps, IState> {
         if (isDataEmpty) return null
         if (data.length === 0) {
             try {
-                const dataFromBD = (await axios(`http://localhost:8080/private/${id}`, {headers: {'auth-token': token}})).data
+                const dataFromBD = (await axios(`/private/${id}`, {headers: {'auth-token': token}})).data
                 if (dataFromBD.length !== 0) {
                     this.setState({data: dataFromBD})
                 } else {
@@ -82,7 +82,7 @@ class _Private extends React.Component<IProps, IState> {
         if (confirmation) {
             const result = this.state.data.filter((obj: TDataItem) => obj._id !== id)
             this.setState({data: result})
-            await axios.delete(`http://localhost:8080/posts/${id}`)
+            await axios.delete(`/posts/${id}`)
         }
     }
 
