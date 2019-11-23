@@ -77,7 +77,10 @@
     "webpack": "4.41.0",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.1.1",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "@types/axios": "^0.14.0",
+    "@types/history": "^4.7.3",
+    "@types/react-redux": "^7.1.5"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -98,11 +101,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/history": "^4.7.3",
-    "@types/react-redux": "^7.1.5"
   },
   "jest": {
     "roots": [
