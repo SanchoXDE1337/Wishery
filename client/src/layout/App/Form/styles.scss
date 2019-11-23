@@ -1,0 +1,19 @@
+.error {
+  color: crimson;
+}
+.button {
+  margin-top: 2em;
+}
+
+.root {
+  font-size: 1.2em;
+  font-weight: 600;
+
+  .select {
+    width: 10em;
+  }
+
+  .errorField {
+    box-shadow: 0 0 10px rgba(#DC143C, 0.8) !important;
+  }
+}

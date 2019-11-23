@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  height: auto;
+  position: relative;
+
+  .plus {
+    font-weight: 800;
+    font-size: 1.5em;
+    margin-right: 0.3em;
+  }
+
+  .addButton {
+    margin: 0 auto 1em;
+  }
+
+  .button {
+    display: flex;
+    align-self: stretch;
+  }
+
+  .delButton {
+    background-color: #0c5c62;
+    color: #fff3fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border-radius: 0.3em;
+    cursor: pointer;
+    margin-left: 1em;
+    height: 100%;
+    width: 3em;
+
+    &:hover {
+      color: #0c5c62;
+      background-color: #fff3fb;
+    }
+  }
+}
