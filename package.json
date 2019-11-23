@@ -11,6 +11,7 @@
   "author": "SanchoXD",
   "license": "ISC",
   "dependencies": {
+    "node": "12.10.0",
     "@hapi/joi": "^16.1.7",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
