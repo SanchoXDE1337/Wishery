@@ -64,3 +64,5 @@ typings/
 # next.js build output
 .next
 /client/node_modules/
+/client/node_modules/
+/client/build/
