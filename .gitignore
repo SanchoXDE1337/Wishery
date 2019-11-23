@@ -1,7 +1,9 @@
 .idea
-./client/node_modules
-./client/build
-./client/.idea
+client/node_modules
+client/build
+client/.idea
+
+
 # Logs
 logs
 *.log
