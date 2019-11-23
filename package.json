@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server.js",
-    "start": "node server.js",
-    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production; npm install && cd client && npm install"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "SanchoXD",
