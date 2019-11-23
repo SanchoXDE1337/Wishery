@@ -1,7 +1,7 @@
 {
   "name": "wishery-front",
   "version": "0.1.0",
-  "proxy": "http://localhost:8000",
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",
