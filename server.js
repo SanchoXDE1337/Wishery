@@ -34,7 +34,7 @@ mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTo
 if (process.env.NODE_ENV === 'production') {
     server.use(express.static(path.join(__dirname, 'client/build')))
     server.get('*', (res, req) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     })
 }
 
