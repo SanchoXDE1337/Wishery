@@ -24,6 +24,7 @@
     "css-loader": "2.1.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "5.1.0",
+    "eslint": "^5.16.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-loader": "3.0.2",
     "eslint-plugin-flowtype": "3.13.0",
@@ -102,7 +103,6 @@
     "@types/axios": "^0.14.0",
     "@types/history": "^4.7.3",
     "@types/react-redux": "^7.1.5",
-    "eslint": "^5.16.0"
   },
   "jest": {
     "roots": [
