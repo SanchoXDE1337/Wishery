@@ -10,8 +10,11 @@
   "keywords": [],
   "author": "SanchoXD",
   "license": "ISC",
-  "dependencies": {
+  "engines": {
     "node": "12.10.0",
+    "npm": "6.11.3"
+  },
+  "dependencies": {
     "@hapi/joi": "^16.1.7",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
