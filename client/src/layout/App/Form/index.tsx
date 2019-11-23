@@ -4,7 +4,7 @@ import {Button, Form as UIForm} from 'semantic-ui-react'
 import styles from './styles.scss';
 import axios from "axios";
 import historyService from "../../../services/historyService";
-import {DatePick} from "../../../components/DatePicker";
+// import {DatePick} from "../../../components/DatePicker";
 
 interface IProps {
     match?: any
@@ -46,11 +46,11 @@ class WishForm extends React.Component<IProps, IState> {
 
     async componentDidMount() {
         const {token} = this.props
-        const isAuth = (await axios(`http://localhost:8080/user/isAuth`, {headers: {'auth-token': token}})).data
+        const isAuth = (await axios(`/user/isAuth`, {headers: {'auth-token': token}})).data
         if (isAuth) this.setState({isAuth})
         if (this.props.match.params.id) this.setState({updating: true}) //Если обратились по id => редактируем
         if (this.state.updating) {
-            const data = (await axios(`http://localhost:8080/posts/${this.props.match.params.id}`)).data
+            const data = (await axios(`/posts/${this.props.match.params.id}`)).data
             this.setState({data: data})
         }
         console.log(this.state)
@@ -59,7 +59,7 @@ class WishForm extends React.Component<IProps, IState> {
     onUpdate = async (values: IProps) => {
         const {author, title, description, theme} = values
         try {
-            await axios.put(`http://localhost:8080/posts/${this.props.match.params.id}`, {author, title, description, theme})
+            await axios.put(`/posts/${this.props.match.params.id}`, {author, title, description, theme})
             alert('Updated successfully!')
             historyService.history!.push('/private')
         } catch (e) {
@@ -73,7 +73,7 @@ class WishForm extends React.Component<IProps, IState> {
         const {token} = this.props
         console.log(values)
          try {
-             await axios.post(`http://localhost:8080/posts/`, {author, title, description, theme}, {headers: {'auth-token': token}})
+             await axios.post(`/posts/`, {author, title, description, theme}, {headers: {'auth-token': token}})
              historyService.history!.push('/')
          } catch (e) {
              alert('Something goes wrong! Try again!')

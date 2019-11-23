@@ -47,7 +47,7 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
 
     onSubmit = async (values: IForm) => {
         const {email, password, username} = values;
-        const res = await axios.post('http://localhost:8080/user/register', {email, password, username});
+        const res = await axios.post('/user/register', {email, password, username});
         console.log(res)
 
     }
@@ -174,46 +174,3 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
         </>
     }
 }
-
-
-/*
-
-const App = () => (
-    <div>
-        <Form
-            onSubmit={onSubmit}
-            render={({ handleSubmit, form, submitting, pristine, values }) => (
-                <form onSubmit={handleSubmit}>
-                    <Field name="firstName" validate={required}>
-                        {({ input, meta }) => (
-                            <div>
-                                <label>First Name</label>
-                                <input {...input} type="text" placeholder="First Name" />
-                                {meta.error && meta.touched && <span>{meta.error}</span>}
-                            </div>
-                        )}
-                    </Field>
-                    <Field
-                        name="age"
-                        validate={composeValidators(required)}
-                    >
-                        {({ input, meta }) => (
-                            <div>
-                                <label>Age</label>
-                                <input {...input} type="text" placeholder="Age" />
-                                {meta.error && meta.touched && <span>{meta.error}</span>}
-                            </div>
-                        )}
-                    </Field>
-                    <div className="buttons">
-                        <button type="submit" disabled={submitting}>
-                            Submit
-                        </button>
-                    </div>
-                </form>
-            )}
-        />
-    </div>
-)
-*!/
-*/

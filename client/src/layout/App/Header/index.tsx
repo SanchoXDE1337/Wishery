@@ -40,7 +40,7 @@ class _Header extends React.Component<IProps, IState> {
 
     authenticate = async () => {
         const {token} = this.props
-        const isAuth = (await axios(`http://localhost:8080/user/isAuth`, {headers: {'auth-token': token}})).data
+        const isAuth = (await axios(`/user/isAuth`, {headers: {'auth-token': token}})).data
         if (isAuth !== this.state.isAuth) {
             if (isAuth) {
                 this.setState({isAuth})
