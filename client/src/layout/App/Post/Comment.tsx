@@ -15,7 +15,7 @@ const Commentary: React.FC<IProps> = ({author, text, date}) => (
             <Comment.Author as='a'>{author}</Comment.Author>
             <Comment.Metadata>
                 <div>
-                    <Moment format="D MMM YYYY" withTitle>
+                    <Moment format="hh:mm, D MMM YYYY" withTitle>
                         {date}
                     </Moment>
                 </div>
