@@ -33,13 +33,13 @@ mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTo
     () => console.log('connected to DB'))
 
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'))
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("./client/build"))
 }
 
 // Handle React routing, return all requests to React app
 app.get('*', (request, response) => {
-    response.sendFile(path.resolve('./client/build/', 'index.html'))
+    response.sendFile(path.resolve("./client/build/", "index.html"))
 })
 
 app.listen(PORT, () => {
