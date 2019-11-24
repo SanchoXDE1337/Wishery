@@ -1,7 +1,7 @@
 import React from 'react'
 import {Form, Field} from 'react-final-form'
 import {Button, Form as UIForm} from 'semantic-ui-react'
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import axios from "axios";
 import historyService from "../../../services/historyService";
 // import {DatePick} from "../../../components/DatePicker";

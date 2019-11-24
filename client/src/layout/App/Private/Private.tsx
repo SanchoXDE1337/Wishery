@@ -4,7 +4,7 @@ import Card from "../../../components/Card/Card";
 import historyService from "../../../services/historyService";
 import {IStore} from "../../../store/reducers";
 import {connect} from "react-redux";
-import styles from './styles.scss'
+import styles from './styles.module.scss'
 import Button from "../../../components/Button";
 
 

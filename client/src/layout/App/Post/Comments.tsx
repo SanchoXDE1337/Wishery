@@ -4,7 +4,7 @@ import axios from 'axios'
 import Commentary from './Comment'
 import {IStore} from "../../../store/reducers"
 import {connect} from "react-redux"
-import styles from '../styles.scss'
+import styles from '../styles.module.scss'
 import LoginDialog from "../Header/LoginDialog";
 import RegisterDialog from "../Header/RegisterDialog";
 import {Dispatch} from "redux";
