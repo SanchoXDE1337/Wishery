@@ -22,8 +22,8 @@ app.use('/user', authRoute)
 const privateRoute = require('./routes/private')
 app.use('/private', privateRoute)
 
-const homeRoute = require('./routes/home')
-app.use('/', homeRoute)
+/*const homeRoute = require('./routes/home')
+app.use('/', homeRoute)*/
 
 const commentRoute = require('./routes/comments')
 app.use('/comments', commentRoute)
