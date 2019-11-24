@@ -1,1 +1,1 @@
-# Simply [masterpiece]('https://wishery-app.herokuapp.com/')
+# Simply [masterpiece](https://wishery-app.herokuapp.com/)
