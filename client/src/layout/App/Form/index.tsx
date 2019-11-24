@@ -53,7 +53,6 @@ class WishForm extends React.Component<IProps, IState> {
             const data = (await axios(`/api/posts/${this.props.match.params.id}`)).data
             this.setState({data: data})
         }
-        console.log(this.state)
     }
 
     onUpdate = async (values: IProps) => {
@@ -64,20 +63,17 @@ class WishForm extends React.Component<IProps, IState> {
             historyService.history!.push('/private')
         } catch (e) {
             alert('Something goes wrong! Try again!')
-            console.log(e)
         }
     }
 
     onSubmit = async (values: IProps) => {
         const {author, title, description, theme} = values
         const {token} = this.props
-        console.log(values)
          try {
              await axios.post(`/api/posts/`, {author, title, description, theme}, {headers: {'auth-token': token}})
              historyService.history!.push('/')
          } catch (e) {
              alert('Something goes wrong! Try again!')
-             console.log(e)
          }
     }
 

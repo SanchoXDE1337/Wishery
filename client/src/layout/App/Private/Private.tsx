@@ -61,6 +61,7 @@ class _Private extends React.Component<IProps, IState> {
             try {
                 const dataFromBD = (await axios(`/api/private/${id}`, {headers: {'auth-token': token}})).data
                 if (dataFromBD.length !== 0) {
+                    dataFromBD.reverse()
                     this.setState({data: dataFromBD})
                 } else {
                     this.setState({isDataEmpty: true})
