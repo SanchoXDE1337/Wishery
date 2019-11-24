@@ -86,11 +86,11 @@ module.exports = function(webpackEnv) {
       isEnvDevelopment && require.resolve('style-loader'),
       isEnvProduction && {
         loader: MiniCssExtractPlugin.loader,
-        options: shouldUseRelativeAssetPaths ? { publicPath: '../../' } : {},
+        options: shouldUseRelativeAssetPaths ? { publicPath: '../../', modules: true, } : {modules: true,},
       },
       {
         loader: require.resolve('css-loader'),
-        options: cssOptions,
+        options: {...cssOptions, modules: true,},
       },
       {
         // Options for PostCSS as we reference these options twice
@@ -101,6 +101,7 @@ module.exports = function(webpackEnv) {
           // Necessary for external CSS imports to work
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
+          modules: true,
           plugins: () => [
             require('postcss-flexbugs-fixes'),
             require('postcss-preset-env')({
