@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import 'rc-dialog/assets/index.css'
 import LoginDialog from './LoginDialog'
 import RegisterDialog from "./RegisterDialog";
