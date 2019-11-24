@@ -82,7 +82,7 @@ class _Private extends React.Component<IProps, IState> {
         if (confirmation) {
             const result = this.state.data.filter((obj: TDataItem) => obj._id !== id)
             this.setState({data: result})
-            await axios.delete(`/posts/${id}`)
+            await axios.delete(`/api/posts/${id}`)
         }
     }
 
