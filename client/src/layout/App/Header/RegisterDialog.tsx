@@ -47,7 +47,7 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
 
     onSubmit = async (values: IForm) => {
         const {email, password, username} = values;
-        const res = await axios.post('/user/register', {email, password, username});
+        const res = await axios.post('/api/user/register', {email, password, username});
         console.log(res)
 
     }

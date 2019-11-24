@@ -31,7 +31,7 @@ class Home extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        const data = (await axios(`/`)).data
+        const data = (await axios(`/api/`)).data
         data.reverse()
         this.setState({data})
     }

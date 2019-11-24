@@ -41,7 +41,7 @@ class Post extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        const data = (await axios(`/posts/${this.props.match.params.id}`)).data
+        const data = (await axios(`/api/posts/${this.props.match.params.id}`)).data
         this.setState({data: data})
     }
 

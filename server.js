@@ -14,19 +14,19 @@ const PORT = process.env.PORT || 8080
 
 // import routes
 const postsRoute = require('./routes/posts')
-app.use('/posts', postsRoute)
+app.use('/api/posts', postsRoute)
 
 const authRoute = require('./routes/auth')
-app.use('/user', authRoute)
+app.use('/api/user', authRoute)
 
 const privateRoute = require('./routes/private')
-app.use('/private', privateRoute)
+app.use('/api/private', privateRoute)
 
-/*const homeRoute = require('./routes/home')
-app.use('/', homeRoute)*/
+const homeRoute = require('./routes/home')
+app.use('/api', homeRoute)
 
 const commentRoute = require('./routes/comments')
-app.use('/comments', commentRoute)
+app.use('/api/comments', commentRoute)
 
 //connect to db
 mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false},

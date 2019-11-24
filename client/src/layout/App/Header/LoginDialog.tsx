@@ -42,7 +42,7 @@ export default class LoginDialog extends React.Component<IProps, IState> {
     onSubmit = async (values: IForm) => {
         const {password, name} = values;
         const {login} = this.props
-        const res = await axios.post('/user/login', {name, password})
+        const res = await axios.post('/api/user/login', {name, password})
         const [token, id] = res.data;
         login(token, id);
         this.setState({visible: false, errorFromServer: ''})

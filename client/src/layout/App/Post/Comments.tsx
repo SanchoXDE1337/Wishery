@@ -46,12 +46,12 @@ class _Comments extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        const data = (await axios(`/comments/${this.props.postId}`)).data
+        const data = (await axios(`/api/comments/${this.props.postId}`)).data
         if (data !== null) {
             this.setState({data})
         }
         const {token} = this.props
-        const isAuth = (await axios(`/user/isAuth`, {headers: {'auth-token': token}})).data
+        const isAuth = (await axios(`/api/user/isAuth`, {headers: {'auth-token': token}})).data
         if (isAuth) return this.setState({isAuth})
     }
 
@@ -59,7 +59,7 @@ class _Comments extends React.Component<IProps, IState> {
         const {textareaValue} = this.state
         const {token} = this.props
         if(textareaValue && token) {
-            const res: TDataItem = (await axios.post(`/comments/${this.props.postId}`, {
+            const res: TDataItem = (await axios.post(`/api/comments/${this.props.postId}`, {
                 author: this.props.id,
                 text: textareaValue
             }, {headers: {'auth-token': token}})).data
