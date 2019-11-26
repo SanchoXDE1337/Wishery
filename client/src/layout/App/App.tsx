@@ -37,8 +37,12 @@ class _App extends React.Component<IProps, IState> {
 
     async componentDidMount() {
         const {token} = this.props
-        const isAuth = (await axios(`/api/user/isAuth`, {headers: {'auth-token': token}})).data
-        if (isAuth) return this.setState({isAuth})
+        try {
+            const isAuth = (await axios(`/api/user/isAuth`, {headers: {'auth-token': token}})).data
+            this.setState({isAuth})
+        } catch (e) {
+            this.setState({isAuth: false})
+        }
     }
 
     render() {
