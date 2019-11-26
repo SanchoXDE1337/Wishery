@@ -5,7 +5,11 @@
 
   a {
     text-decoration: none;
-    color: #fff3fb;
+    //color: #fff3fb;
+    color: #DC143C;
+    &:hover {
+      color: #0c5c62;
+    }
   }
 
   .body {

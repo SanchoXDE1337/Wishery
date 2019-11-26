@@ -1,6 +1,7 @@
 import {Comment} from "semantic-ui-react";
 import React from "react";
 import Moment from 'react-moment';
+import Linkify from 'react-linkify';
 
 
 interface IProps {
@@ -20,7 +21,13 @@ const Commentary: React.FC<IProps> = ({author, text, date}) => (
                     </Moment>
                 </div>
             </Comment.Metadata>
-            <Comment.Text>{text}</Comment.Text>
+            <Comment.Text>
+                <Linkify>
+                    {text && text.split('\n').map((item, key) => {
+                        return <span key={key}>{item}<br/></span>
+                    })}
+                </Linkify>
+            </Comment.Text>
         </Comment.Content>
     </Comment>
 )

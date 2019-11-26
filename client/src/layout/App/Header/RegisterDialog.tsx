@@ -21,17 +21,24 @@ interface IState {
     visible: boolean
     errorFromServer?: string
 }
-
+/*
+async (values) => {
+    try {
+        await handleSubmit(values)
+        form.reset()
+        await this.setState({visible: false, errorFromServer: ''})
+        alert('You have successfully registered!')
+    } catch (e) {
+        this.setState({errorFromServer: e.response.data})
+    }
+}*/
 
 export default class RegisterDialog extends React.Component<IProps, IState> {
     state = {visible: false, errorFromServer: ''};
 
     handleOpenDialog = () => this.setState({visible: true});
 
-    handleCloseDialog = () => {
-        this.setState({visible: false, errorFromServer: ''})
-
-    }
+    handleCloseDialog = () => this.setState({visible: false, errorFromServer: ''})
 
     usernameChange = () => {
         if (this.state.errorFromServer === "Username already exists") {
@@ -46,10 +53,15 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
     }
 
     onSubmit = async (values: IForm) => {
-        const {email, password, username} = values;
-        const res = await axios.post('/api/user/register', {email, password, username});
-        console.log(res)
-
+        try {
+            const {email, password, username} = values;
+            const res = await axios.post('/api/user/register', {email, password, username});
+            console.log(res)
+            this.setState({visible: false, errorFromServer: ''})
+            alert('You have successfully registered!')
+        } catch (e) {
+            this.setState({errorFromServer: e.response.data})
+        }
     }
 
     render() {
@@ -102,18 +114,8 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
                             }
                             return errors
                         }}
-                        render={({handleSubmit, form, submitting, pristine, values}) => (
-                            <UIForm onSubmit={async (values) => {
-                                try {
-                                    await handleSubmit(values)
-                                    form.reset()
-                                    await this.setState({visible: false, errorFromServer: ''})
-                                    alert('You have successfully registered!')
-                                } catch (e) {
-                                    console.log(e.response.data)
-                                    this.setState({errorFromServer: e.response.data})
-                                }
-                            }}>
+                        render={({handleSubmit, form, submitting, pristine, hasValidationErrors, hasSubmitErrors}) => (
+                            <UIForm onSubmit={handleSubmit}>
                                 {!this.state.visible ? form.reset() : null} {/* Reset form on close */}
                                 <Field name="username">
                                     {({input, meta}) => (
@@ -161,10 +163,8 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
                                         </div>
                                     )}
                                 </Field>
-                                <div className="buttons">
-                                    <div className={styles.row}>
-                                        <Button type={'submit'} disabled={submitting || pristine}>Register</Button>
-                                    </div>
+                                <div className={styles.row}>
+                                    <Button type={'submit'} disabled={submitting || pristine || hasValidationErrors || hasSubmitErrors}>Register</Button>
                                 </div>
                             </UIForm>
                         )}

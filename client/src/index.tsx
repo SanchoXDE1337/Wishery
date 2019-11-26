@@ -6,7 +6,6 @@ import {Router} from "react-router-dom";
 import historyService from './services/historyService'
 import store from "./store";
 
-
 ReactDOM.render(
     <Provider store={store}>
         <Router history={historyService.history}>
