@@ -15,6 +15,7 @@ interface IProps {
 
 type TDataItem = {
     author: string
+    authorID: string
     description: string
     title: string
     _id: string
@@ -90,14 +91,21 @@ class _Private extends React.Component<IProps, IState> {
     render() {
         if (!this.state.isAuth) return <h1>403 forbidden</h1>
         return (
-            <>
+            <div>
+                <div>
+                    <div className={styles.addButton}>
+                        <Button
+                            onClick={() => historyService.history!.push('/private/settings')}
+                        ><i className="material-icons">build</i> Settings </Button>
+                    </div>
+                </div>
                 {this.state.isDataEmpty
                     ? <div>
                         <h2>You have not any wishes :(</h2>
                         <div className={styles.addButton}>
-                            <Button onClick={() => historyService.history!.push('/posts/add')}>
-                                <span className={styles.plus}>+</span>Add new Wish!
-                            </Button>
+                            <Button
+                                onClick={() => historyService.history!.push('/posts/add')}
+                            ><span className={styles.plus}>+</span>Add new Wish!</Button>
                         </div>
                     </div>
                     : this.state.data.length > 0
@@ -110,7 +118,8 @@ class _Private extends React.Component<IProps, IState> {
                             style={{marginBottom: 0}}
                             theme={obj.theme}
                             url={`/posts/${obj._id}`}
-                            author={obj.author}
+                            /*author={obj.author}
+                            authorID={obj.authorID}*/
                             title={obj.title}
                         />
                         <div className={styles.button}>
@@ -127,7 +136,7 @@ class _Private extends React.Component<IProps, IState> {
                         </div>
                     </div>
                 )}
-            </>
+            </div>
         )
     }
 }

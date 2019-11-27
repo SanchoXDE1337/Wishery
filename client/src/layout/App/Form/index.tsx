@@ -4,17 +4,21 @@ import {Button, Form as UIForm} from 'semantic-ui-react'
 import styles from './styles.module.scss';
 import axios from "axios";
 import historyService from "../../../services/historyService";
+import {IStore} from "../../../store/reducers";
+import {connect} from "react-redux";
 // import {DatePick} from "../../../components/DatePicker";
 
 interface IProps {
     match?: any
     token?: string
+    id?:string
+}
+interface TItem {
     title?: string
     author?: string
     description?: string
     theme?: string
 }
-
 
 interface IState {
     isAuth: boolean
@@ -27,7 +31,7 @@ interface IState {
 }
 
 
-class WishForm extends React.Component<IProps, IState> {
+class _WishForm extends React.Component<IProps, IState> {
     state = {
         isAuth: false,
         updating: false,
@@ -55,7 +59,7 @@ class WishForm extends React.Component<IProps, IState> {
         }
     }
 
-    onUpdate = async (values: IProps) => {
+    onUpdate = async (values: TItem) => {
         const {author, title, description, theme} = values
         try {
             await axios.put(`/api/posts/${this.props.match.params.id}`, {author, title, description, theme})
@@ -66,7 +70,7 @@ class WishForm extends React.Component<IProps, IState> {
         }
     }
 
-    onSubmit = async (values: IProps) => {
+    onSubmit = async (values: TItem) => {
         const {author, title, description, theme} = values
         const {token} = this.props
          try {
@@ -78,7 +82,7 @@ class WishForm extends React.Component<IProps, IState> {
     }
 
     render() {
-        const {author} = this.props
+        const author = this.props.id
         const {data: {title, description, theme}, updating, isAuth} = this.state
         if (isAuth) {
             return (
@@ -86,8 +90,8 @@ class WishForm extends React.Component<IProps, IState> {
                     <Form
                         onSubmit={updating ? this.onUpdate : this.onSubmit}
                         initialValues={{author, title, description, theme}}
-                        validate={(values: IProps) => {
-                            const errors: IProps = {}
+                        validate={(values: TItem) => {
+                            const errors: TItem = {}
                             if (!values.title) {
                                 errors.title = 'Required'
                             }
@@ -179,5 +183,8 @@ class WishForm extends React.Component<IProps, IState> {
         }
     }
 }
+const mapStateToProps = ({accountStore: {id, token}}: IStore) => ({id, token})
+
+const WishForm = connect(mapStateToProps)(_WishForm)
 
 export default WishForm

@@ -61,4 +61,14 @@ router.get('/isAuth', verify, async (req, res) => {
     res.send(true)
 })
 
-module.exports = router;
+router.get('/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        await res.json(user)
+    } catch (e) {
+        await res.json({message: e})
+    }
+})
+
+
+module.exports = router

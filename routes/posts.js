@@ -21,6 +21,7 @@ router.post('/', verify, async (req, res) => {
         const author = (await User.findById(req.body.author)).username
         const post = new Post({
             author,
+            authorID: req.body.author,
             title: req.body.title,
             description: req.body.description,
             theme: req.body.theme

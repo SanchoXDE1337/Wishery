@@ -1,0 +1,13 @@
+.comments {
+  margin: 1em auto;
+
+  .buttonContainer {
+    width: 100%;
+    & > button {
+      width: 5em;
+      height: 2em;
+      display: inline;
+    }
+  }
+}
+

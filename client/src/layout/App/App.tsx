@@ -5,9 +5,11 @@ import {Switch, Route} from 'react-router-dom'
 import Private from './Private/Private'
 import Home from './Home/Home'
 import Post from './Post/Post'
+import User from './User/User'
+import Settings from './Settings/Settings'
 import Footer from "./Footer";
 import FourOFour from "./404";
-import Form from './Form'
+import WishForm from './Form'
 import Button from "../../../src/components/Button";
 import historyService from "../../services/historyService";
 import axios from "axios";
@@ -52,13 +54,10 @@ class _App extends React.Component<IProps, IState> {
                 <div className={styles.body}>
                     <div className={styles.content}>
                         <Switch>
-                            <Route path="/private">
-                                <Private/>
-                            </Route>
-                            <Route exact path="/posts/add"
-                                   render={(props:any) => <Form {...props} author={this.props.id} token={this.props.token}/>}/>
-                            <Route exact path="/posts/update/:id"
-                                   render={(props:any) => <Form {...props} author={this.props.id} token={this.props.token}/>}/>
+                            <Route exact path="/private" component={Private}/>
+                            <Route exact path="/private/settings" component={Settings}/>
+                            <Route exact path="/posts/add" component={WishForm}/>
+                            <Route exact path="/posts/update/:id" component={WishForm}/>
                             <Route exact path="/">
                                 {this.state.isAuth
                                     ? <div className={styles.addButton}>
@@ -71,6 +70,7 @@ class _App extends React.Component<IProps, IState> {
                                 <Home/>
                             </Route>
                             <Route exact path="/posts/:id" component={Post}/>
+                            <Route exact path="/user/:id" component={User}/>
                             <Route path="*" component={FourOFour}/>
                         </Switch>
                     </div>

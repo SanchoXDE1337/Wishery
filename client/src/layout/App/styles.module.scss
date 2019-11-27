@@ -7,6 +7,7 @@
     text-decoration: none;
     //color: #fff3fb;
     color: #DC143C;
+
     &:hover {
       color: #0c5c62;
     }
@@ -17,41 +18,29 @@
     height: calc(100vh - 60px);
     flex-direction: column;
     justify-content: space-between;
-  }
 
-  .content {
-    padding: 1em 8em;
+    .content {
+      padding: 1em 8em;
 
-    .plus {
-      font-weight: 800;
-      font-size: 1.5em;
-      margin-right: 0.3em;
-    }
+      .plus {
+        font-weight: 800;
+        font-size: 1.5em;
+        margin-right: 0.3em;
+      }
 
-    .comments {
-      margin: 1em auto;
-
-      .buttonContainer {
-        width: 100%;
-        & > button {
-          width: 5em;
-          height: 2em;
-          display: inline;
-        }
+      .addButton {
+        margin: 0 auto 1em;
+        user-select: none;
       }
     }
 
-    .addButton {
-      margin: 0 auto 1em;
+    .footer {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
     }
-  }
-
-  .footer {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
   }
 }
 

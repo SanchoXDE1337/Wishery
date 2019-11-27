@@ -21,6 +21,7 @@ interface IState {
     visible: boolean
     errorFromServer?: string
 }
+
 /*
 async (values) => {
     try {
@@ -116,7 +117,7 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
                         }}
                         render={({handleSubmit, form, submitting, pristine, hasValidationErrors, hasSubmitErrors}) => (
                             <UIForm onSubmit={handleSubmit}>
-                                {!this.state.visible ? form.reset() : null} {/* Reset form on close */}
+                                {!this.state.visible ? window.setTimeout(form.reset, 100) : null} {/* Reset form on close */}
                                 <Field name="username">
                                     {({input, meta}) => (
                                         <div>
@@ -164,7 +165,8 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
                                     )}
                                 </Field>
                                 <div className={styles.row}>
-                                    <Button type={'submit'} disabled={submitting || pristine || hasValidationErrors || hasSubmitErrors}>Register</Button>
+                                    <Button type={'submit'}
+                                            disabled={submitting || pristine || hasValidationErrors || hasSubmitErrors}>Register</Button>
                                 </div>
                             </UIForm>
                         )}

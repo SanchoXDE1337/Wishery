@@ -8,8 +8,8 @@ interface IProps {
 }
 
 type TDataItem = {
-    _id: string
     author: string
+    authorID: string
     description?: string
     title: string
     date: string
@@ -30,8 +30,8 @@ interface IState {
 class Post extends React.Component<IProps, IState> {
     state = {
         data: {
-            _id: '',
             author: '',
+            authorID: '',
             description: '',
             title: '',
             theme: '',
@@ -43,14 +43,16 @@ class Post extends React.Component<IProps, IState> {
     async componentDidMount() {
         const data = (await axios(`/api/posts/${this.props.match.params.id}`)).data
         this.setState({data: data})
+        console.log(data)
     }
 
     render() {
-        const {author, description, title, theme} = this.state.data
+        const {author, authorID, description, title, theme} = this.state.data
         return (
             <>
                 <Card
                     author={author}
+                    authorID={authorID}
                     description={description}
                     title={title}
                     theme={theme}

@@ -10,6 +10,7 @@ interface IProps {
 type TDataItem = {
     _id: string
     author: string
+    authorID: string
     description?: string
     title: string
     theme: string
@@ -57,11 +58,11 @@ class Home extends React.Component<IProps, IState> {
         const filteredData: TDataItem[] = filteredByInput.filter(
             (item: TDataItem) => selectValue ? item.theme === selectValue : item)
         return (
-            <>
-                <div style={{display: "inline-block", marginRight: "1em"}}>
+            <div>
+                <div style={{display: "inline-block", marginRight: "1em", userSelect: "none"}}>
                     <InputWithIcon onChange={(event: any) => this.handleInputChange(event)}/>
                 </div>
-                <UIForm style={{width: "10em", display: "inline-block"}}>
+                <UIForm style={{width: "10em", display: "inline-block", userSelect: "none"}}>
                     <label>Theme of wishes: </label>
                     <select onChange={(event: any) => this.handleSelectChange(event)}>
                         <option value="">All</option>
@@ -79,13 +80,14 @@ class Home extends React.Component<IProps, IState> {
                 {filteredData.map((obj: TDataItem) =>
                     <Card
                         author={obj.author}
+                        authorID={obj.authorID}
                         url={`/posts/${obj._id}`}
                         theme={obj.theme}
                         title={obj.title}
                         key={obj.author + obj.description + obj.title}
                     />
                 )}
-            </>
+            </div>
         )
     }
 }
