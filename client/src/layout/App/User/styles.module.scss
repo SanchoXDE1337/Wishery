@@ -5,3 +5,26 @@
   align-items: center;
   justify-content: center;
 }
+
+.logo {
+  width: 2em;
+  height: 2em;
+  margin-right: 2em;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.addSN {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.content {
+  display: flex;
+  height: calc(100vh - 12em);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

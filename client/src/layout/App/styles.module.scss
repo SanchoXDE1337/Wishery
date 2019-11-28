@@ -20,7 +20,7 @@
     justify-content: space-between;
 
     .content {
-      padding: 1em 8em;
+      padding: 1em 15em 0;
 
       .plus {
         font-weight: 800;
@@ -46,8 +46,10 @@
 
 @media screen and (max-width: 800px) {
   .root {
-    .content {
-      padding: 2em;
+    .body {
+      .content {
+        padding: 1em 2em 0;
+      }
     }
   }
 }

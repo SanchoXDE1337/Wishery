@@ -103,7 +103,7 @@ class _WishForm extends React.Component<IProps, IState> {
                             }
                             return errors
                         }}
-                        render={({handleSubmit, submitting, pristine}) => (
+                        render={({handleSubmit, submitting, pristine, hasValidationErrors}) => (
                             <UIForm onSubmit={handleSubmit}>
                                 <Field name="title">
                                     {({input, meta}) => (
@@ -167,7 +167,7 @@ class _WishForm extends React.Component<IProps, IState> {
                                     {() => <DatePick/>}
                                 </Field>*/}
                                 <div className={styles.button}>
-                                    <Button type='submit' disabled={submitting || pristine}>Submit</Button>
+                                    <Button type='submit' disabled={submitting || pristine || hasValidationErrors}>Submit</Button>
                                 </div>
                             </UIForm>
                         )}

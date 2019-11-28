@@ -1,0 +1,65 @@
+.logo {
+  width: 2em;
+  height: 2em;
+  margin-right: 2em;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.loader {
+  display: flex;
+  height: calc(100vh - 127px);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.addSN {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.content {
+  display: flex;
+  //height: calc(100vh - 160px);
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  h3 {
+    margin: 0em auto;
+  }
+}
+
+.error {
+  color: crimson;
+}
+
+
+.password {
+  font-size: 1.2em;
+  font-weight: 600;
+
+  .errorField {
+    box-shadow: 0 0 10px rgba(#DC143C, 0.8) !important;
+  }
+}
+
+.row {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+
+.buttonSet {
+  display: flex;
+
+  & > * {
+    margin: 0 10px 0 0;
+  }
+
+}

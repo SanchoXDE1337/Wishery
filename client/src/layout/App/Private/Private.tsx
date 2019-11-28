@@ -43,15 +43,14 @@ class _Private extends React.Component<IProps, IState> {
         return {...prevState, isAuth: true}
     }
 
-    componentDidMount() {
-        const {id, token} = this.props
-        axios(`/api/private/${id}`, {headers: {'auth-token': token}})
-            .then(res => {
-                this.setState({isAuth: true})
-            })
-            .catch(e => {
-                this.setState({isAuth: false})
-            })
+    async componentDidMount() {
+        const {token} = this.props
+        try {
+            const isAuth = (await axios(`/api/user/isAuth`, {headers: {'auth-token': token}})).data
+            this.setState({isAuth})
+        } catch (e) {
+            this.setState({isAuth: false})
+        }
     }
 
     async componentDidUpdate(prevProps: Readonly<IProps>, prevState: IState) {

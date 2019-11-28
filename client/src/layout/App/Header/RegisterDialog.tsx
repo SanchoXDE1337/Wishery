@@ -22,17 +22,6 @@ interface IState {
     errorFromServer?: string
 }
 
-/*
-async (values) => {
-    try {
-        await handleSubmit(values)
-        form.reset()
-        await this.setState({visible: false, errorFromServer: ''})
-        alert('You have successfully registered!')
-    } catch (e) {
-        this.setState({errorFromServer: e.response.data})
-    }
-}*/
 
 export default class RegisterDialog extends React.Component<IProps, IState> {
     state = {visible: false, errorFromServer: ''};

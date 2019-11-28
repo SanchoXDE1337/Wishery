@@ -64,7 +64,11 @@ router.get('/isAuth', verify, async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
-        await res.json(user)
+        await res.json({
+            username: user.username,
+            info: user.info,
+            date: user.date
+        })
     } catch (e) {
         await res.json({message: e})
     }
