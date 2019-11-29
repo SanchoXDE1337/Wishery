@@ -6,13 +6,14 @@ import axios from "axios";
 import historyService from "../../../services/historyService";
 import {IStore} from "../../../store/reducers";
 import {connect} from "react-redux";
-// import {DatePick} from "../../../components/DatePicker";
+
 
 interface IProps {
     match?: any
     token?: string
-    id?:string
+    id?: string
 }
+
 interface TItem {
     title?: string
     author?: string
@@ -73,21 +74,21 @@ class _WishForm extends React.Component<IProps, IState> {
     onSubmit = async (values: TItem) => {
         const {author, title, description, theme} = values
         const {token} = this.props
-         try {
-             await axios.post(`/api/posts/`, {author, title, description, theme}, {headers: {'auth-token': token}})
-             historyService.history!.push('/')
-         } catch (e) {
-             alert('Something goes wrong! Try again!')
-         }
+        try {
+            await axios.post(`/api/posts/`, {author, title, description, theme}, {headers: {'auth-token': token}})
+            historyService.history!.push('/')
+        } catch (e) {
+            alert('Something goes wrong! Try again!')
+        }
     }
 
     render() {
         const author = this.props.id
         const {data: {title, description, theme}, updating, isAuth} = this.state
-        if (isAuth) {
-            return (
-                <div className={styles.root}>
-                    <Form
+        return (
+            <div className={styles.root}>
+                {isAuth
+                    ? <Form
                         onSubmit={updating ? this.onUpdate : this.onSubmit}
                         initialValues={{author, title, description, theme}}
                         validate={(values: TItem) => {
@@ -133,7 +134,7 @@ class _WishForm extends React.Component<IProps, IState> {
                                             <label>Theme of your wish</label>
                                             <select {...input} placeholder={'Choose theme of your wish'}
                                                     className={meta.error && meta.touched ? styles.errorField : ''}>
-                                                <option />
+                                                <option/>
                                                 <option value="Drink">Drink</option>
                                                 <option value="Walk">Walk</option>
                                                 <option value="Cinema">Cinema</option>
@@ -150,39 +151,20 @@ class _WishForm extends React.Component<IProps, IState> {
                                         </div>
                                     )}
                                 </Field>
-
-                                {/* <Field name="date">
-                                    {({ input, meta }) => (
-                                        <>
-                                            <DatePick
-                                                type="text"
-                                                {...input}
-                                            />
-                                            {meta.error && meta.touched &&
-                                            <span className={styles.error}>{meta.error}</span>}
-                                        </>
-                                    )}
-                                </Field>*/}
-                                {/*  <Field name="date">
-                                    {() => <DatePick/>}
-                                </Field>*/}
                                 <div className={styles.button}>
-                                    <Button type='submit' disabled={submitting || pristine || hasValidationErrors}>Submit</Button>
+                                    <Button type='submit'
+                                            disabled={submitting || pristine || hasValidationErrors}>Submit</Button>
                                 </div>
                             </UIForm>
                         )}
                     />
-                </div>
-            )
-        } else {
-            return (
-                <div>
-                    <h1>403 forbidden</h1>
-                </div>
-            )
-        }
+                    : <h1>403 forbidden</h1>
+                }
+            </div>
+        )
     }
 }
+
 const mapStateToProps = ({accountStore: {id, token}}: IStore) => ({id, token})
 
 const WishForm = connect(mapStateToProps)(_WishForm)

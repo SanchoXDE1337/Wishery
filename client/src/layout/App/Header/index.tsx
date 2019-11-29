@@ -12,6 +12,7 @@ import {login, logout} from "../../../store/actions";
 import {IStore} from "../../../store/reducers";
 import {Dropdown} from 'semantic-ui-react'
 import axios from "axios";
+import Button from "../../../components/Button";
 
 interface IState {
     token?: string
@@ -32,11 +33,11 @@ class _Header extends React.Component<IProps, IState> {
         this.state = {token: props.token, isAuth: false}
     }
 
-      static getDerivedStateFromProps(nextProps: Readonly<IProps>, prevState: IState) {
-          const {token} = nextProps
-          if(!token) return {...prevState, isAuth: false}
-          return (token !== prevState.token) ? {...prevState, token} : null
-      }
+    static getDerivedStateFromProps(nextProps: Readonly<IProps>, prevState: IState) {
+        const {token} = nextProps
+        if (!token) return {...prevState, isAuth: false}
+        return (token !== prevState.token) ? {...prevState, token} : null
+    }
 
     authenticate = async () => {
         const {token} = this.props
@@ -66,6 +67,11 @@ class _Header extends React.Component<IProps, IState> {
         return (
             <div className={styles.root}>
                 <div onClick={this.handleClickToLogo} className={styles.title}>WISHERY</div>
+                <div className={styles.searchButton}>
+                    <Button
+                        onClick={() => historyService.history!.push('/user/')}
+                    >Search users!</Button>
+                </div>
                 <div className={styles.buttonSet}>
                     <Dropdown text='Account'>
                         <Dropdown.Menu direction={'left'}>

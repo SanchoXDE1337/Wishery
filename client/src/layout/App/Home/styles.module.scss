@@ -1,0 +1,41 @@
+.content {
+  padding: 0 15em;
+
+  .search {
+    display: inline-block;
+    margin-right: 1em;
+    user-select: none;
+  }
+
+  .plus {
+    font-weight: 800;
+    font-size: 1.5em;
+    margin-right: 0.3em;
+  }
+
+  .addButton {
+    user-select: none;
+    margin-bottom: 0.5em;
+  }
+
+}
+
+.loader {
+  display: flex;
+  height: calc(100vh - 127px);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 806px) {
+  .content {
+    padding: 0 2em;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .content {
+    padding: 0 1em;
+  }
+}

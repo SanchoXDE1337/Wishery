@@ -6,6 +6,7 @@ import styles from "./styles.module.scss";
 import HashLoader from "react-spinners/HashLoader";
 import {IStore} from "../../../store/reducers";
 import {connect} from "react-redux";
+import FourOFour from "../404";
 
 interface IProps {
     match?: any
@@ -66,7 +67,7 @@ class _Post extends React.Component<IProps, IState> {
     render() {
         const {loading, isAuth, comments, data: {author, authorID, description, title, theme}} = this.state
         return (
-            <div>
+            <div className={styles.content}>
                 {loading
                     ? <div className={styles.loader}>
                         <HashLoader
@@ -76,18 +77,20 @@ class _Post extends React.Component<IProps, IState> {
                             loading={loading}
                         />
                     </div>
-                    : <>
-                        <Card
-                            author={author}
-                            authorID={authorID}
-                            description={description}
-                            title={title}
-                            theme={theme}
-                        />
-                        <Comments postId={this.props.match.params.id}
-                                  comments={comments}
-                                  isAuth={isAuth}/>
-                    </>
+                    : author
+                        ? <>
+                            <Card
+                                author={author}
+                                authorID={authorID}
+                                description={description}
+                                title={title}
+                                theme={theme}
+                            />
+                            <Comments postId={this.props.match.params.id}
+                                      comments={comments}
+                                      isAuth={isAuth}/>
+                        </>
+                        : <FourOFour/>
                 }
             </div>
         )

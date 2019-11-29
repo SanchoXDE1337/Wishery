@@ -27,9 +27,25 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-
+  padding: 1em 10em 0;
+  .button {
+    width: 50%;
+    margin-bottom: 0.5em;
+  }
   h3 {
     margin: 0em auto;
+  }
+}
+
+@media screen and (max-width: 806px) {
+  .content {
+    padding: 1em 2em 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .content {
+    padding: 1em 1em 0;
   }
 }
 
@@ -52,14 +68,4 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-}
-
-
-.buttonSet {
-  display: flex;
-
-  & > * {
-    margin: 0 10px 0 0;
-  }
-
 }

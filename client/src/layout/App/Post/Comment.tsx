@@ -13,7 +13,7 @@ interface IProps {
 const Commentary: React.FC<IProps> = ({author, text, date}) => (
     <Comment>
         <Comment.Content>
-            <Comment.Author as='a'>{author}</Comment.Author>
+            <Comment.Author as='a' href={'google.com'}>{author}</Comment.Author>
             <Comment.Metadata>
                 <div>
                     <Moment format="hh:mm, D MMM YYYY" withTitle>

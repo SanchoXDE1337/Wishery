@@ -5,7 +5,6 @@
 
   a {
     text-decoration: none;
-    //color: #fff3fb;
     color: #DC143C;
 
     &:hover {
@@ -20,18 +19,8 @@
     justify-content: space-between;
 
     .content {
-      padding: 1em 15em 0;
-
-      .plus {
-        font-weight: 800;
-        font-size: 1.5em;
-        margin-right: 0.3em;
-      }
-
-      .addButton {
-        margin: 0 auto 1em;
-        user-select: none;
-      }
+      padding-top: 0.5em;
+      margin-bottom: 1.5em;
     }
 
     .footer {
@@ -43,14 +32,3 @@
     }
   }
 }
-
-@media screen and (max-width: 800px) {
-  .root {
-    .body {
-      .content {
-        padding: 1em 2em 0;
-      }
-    }
-  }
-}
-

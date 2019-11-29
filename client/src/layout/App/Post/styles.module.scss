@@ -14,9 +14,25 @@
 
 .loader {
   display: flex;
-  height: calc(100vh - 127px);
+  height: calc(100vh - 145px);
   width: 100%;
   align-items: center;
   justify-content: center;
 }
 
+.content {
+  padding: 1em 10em 0;
+
+}
+
+@media screen and (max-width: 806px) {
+  .content {
+    padding: 1em 2em 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .content {
+    padding: 1em 1em 0;
+  }
+}

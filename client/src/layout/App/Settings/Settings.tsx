@@ -86,8 +86,12 @@ class _Settings extends React.Component<IProps, IState> {
                             <UserCard username={username} age={age} vk={vk} instagram={instagram} telegram={telegram}
                                       date={date} imgUrl={imgUrl}/>
                             <h3>Settings:</h3>
-                            <AddInfo id={this.props.id} token={this.props.token}/>
-                            <ChangePassword id={this.props.id} token={this.props.token}/>
+                            <div className={styles.button}>
+                                <AddInfo id={this.props.id} token={this.props.token}/>
+                            </div>
+                            <div className={styles.button}>
+                                <ChangePassword id={this.props.id} token={this.props.token}/>
+                            </div>
                         </div>
                         : <h1>403 forbidden</h1>
                 }

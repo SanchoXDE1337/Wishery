@@ -74,5 +74,20 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.find()
+        const userInfoArray = users.map((user) => {
+             return {
+                username: user.username,
+                info: user.info,
+                date: user.date
+            }
+        })
+        await res.json(userInfoArray)
+    } catch (e) {
+        await res.json({message: e})
+    }
+})
 
-module.exports = router
+module.exports = router;

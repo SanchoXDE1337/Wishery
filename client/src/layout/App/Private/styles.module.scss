@@ -42,3 +42,28 @@
   margin: 0 auto 1em;
   user-select: none;
 }
+
+.content {
+  padding: 1em 10em 0;
+
+}
+
+.loader {
+  display: flex;
+  height: calc(100vh - 127px);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 806px) {
+  .content {
+    padding: 1em 2em 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .content {
+    padding: 1em 1em 0;
+  }
+}

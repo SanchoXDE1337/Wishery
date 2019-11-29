@@ -6,6 +6,7 @@ import {IStore} from "../../../store/reducers";
 import {connect} from "react-redux";
 import styles from './styles.module.scss'
 import Button from "../../../components/Button";
+import HashLoader from "react-spinners/HashLoader";
 
 
 interface IProps {
@@ -26,7 +27,7 @@ type TDataItem = {
 interface IState {
     data: TDataItem[]
     isAuth: boolean
-    isDataEmpty: boolean
+    loading: boolean
 }
 
 
@@ -34,42 +35,33 @@ class _Private extends React.Component<IProps, IState> {
     state = {
         data: [],
         isAuth: false,
-        isDataEmpty: false
-    }
-
-    static getDerivedStateFromProps(nextProps: Readonly<IProps>, prevState: IState) {
-        const {token} = nextProps;
-        if (!token) return {...prevState, isAuth: false}
-        return {...prevState, isAuth: true}
+        loading: true
     }
 
     async componentDidMount() {
-        const {token} = this.props
+        const {token, id} = this.props
         try {
             const isAuth = (await axios(`/api/user/isAuth`, {headers: {'auth-token': token}})).data
-            this.setState({isAuth})
+            const data = (await axios(`/api/private/${id}`, {headers: {'auth-token': token}})).data
+            data.reverse()
+            window.setTimeout(() => this.setState({isAuth, data, loading: false}), 900)
         } catch (e) {
-            this.setState({isAuth: false})
+            window.setTimeout(() => this.setState({isAuth: false, loading: false}), 900)
         }
     }
 
     async componentDidUpdate(prevProps: Readonly<IProps>, prevState: IState) {
-        const {id, token} = this.props
-        const {data, isDataEmpty} = this.state
-        if (isDataEmpty) return null
-        if (data.length === 0) {
-            try {
-                const dataFromBD = (await axios(`/api/private/${id}`, {headers: {'auth-token': token}})).data
-                if (dataFromBD.length !== 0) {
-                    dataFromBD.reverse()
-                    this.setState({data: dataFromBD})
-                } else {
-                    this.setState({isDataEmpty: true})
-                }
-            } catch (e) {
-                if ((e.response.status === 400 || 401) && this.state.isAuth) {
-                    this.setState({isAuth: false})
-                }
+        const {token} = this.props
+        const {isAuth} = this.state
+        console.log(0)
+        try {
+            await axios(`/api/user/isAuth`, {headers: {'auth-token': token}})
+            if (!isAuth) {
+                this.setState({isAuth: true})
+            }
+        } catch (e) {
+            if (isAuth) {
+                this.setState({isAuth: false})
             }
         }
     }
@@ -88,53 +80,70 @@ class _Private extends React.Component<IProps, IState> {
     }
 
     render() {
-        if (!this.state.isAuth) return <h1>403 forbidden</h1>
+        const {isAuth, loading, data} = this.state
         return (
             <div>
-                <div>
-                    <div className={styles.addButton}>
-                        <Button
-                            onClick={() => historyService.history!.push('/private/settings')}
-                        ><i className="material-icons">build</i> Settings </Button>
-                    </div>
-                </div>
-                {this.state.isDataEmpty
-                    ? <div>
-                        <h2>You have not any wishes :(</h2>
-                        <div className={styles.addButton}>
-                            <Button
-                                onClick={() => historyService.history!.push('/posts/add')}
-                            ><span className={styles.plus}>+</span>Add new Wish!</Button>
-                        </div>
-                    </div>
-                    : this.state.data.length > 0
-                        ? <h2>Here you can Update & Delete your Wishes</h2>
-                        : null
-                }
-                {this.state.data.map((obj: TDataItem) =>
-                    <div className={styles.container} key={obj._id}>
-                        <Card
-                            style={{marginBottom: 0}}
-                            theme={obj.theme}
-                            url={`/posts/${obj._id}`}
-                            /*author={obj.author}
-                            authorID={obj.authorID}*/
-                            title={obj.title}
+                {loading
+                    ? <div className={styles.loader}>
+                        <HashLoader
+                            sizeUnit={"px"}
+                            size={150}
+                            color={'#36d7b7'}
+                            loading={loading}
                         />
-                        <div className={styles.button}>
-                            <button className={styles.delButton} onClick={() => this.handleUpdate(obj._id)}
-                                    title={'Update!'}>
-                                <i className="material-icons">update</i>
-                            </button>
-                        </div>
-                        <div className={styles.button}>
-                            <button className={styles.delButton} onClick={() => this.handleDelete(obj._id)}
-                                    title={'Delete!'}>
-                                <i className="material-icons-outlined">delete_forever</i>
-                            </button>
-                        </div>
                     </div>
-                )}
+                    : <div className={styles.content}>
+                        {isAuth
+                            ? <div>
+                                <div>
+                                    <div className={styles.addButton}>
+                                        <Button
+                                            onClick={() => historyService.history!.push('/private/settings')}
+                                        ><i className="material-icons">build</i> Settings </Button>
+                                    </div>
+                                </div>
+                                {!data
+                                    ? <div>
+                                        <h2>You have not any wishes :(</h2>
+                                        <div className={styles.addButton}>
+                                            <Button
+                                                onClick={() => historyService.history!.push('/posts/add')}
+                                            ><span className={styles.plus}>+</span>Add new Wish!</Button>
+                                        </div>
+                                    </div>
+                                    : <div>
+                                        <h2>Here you can Update & Delete your Wishes</h2>
+                                        {this.state.data.map((obj: TDataItem) =>
+                                            <div className={styles.container} key={obj._id}>
+                                                <Card
+                                                    style={{marginBottom: 0}}
+                                                    theme={obj.theme}
+                                                    url={`/posts/${obj._id}`}
+                                                    title={obj.title}
+                                                />
+                                                <div className={styles.button}>
+                                                    <button className={styles.delButton}
+                                                            onClick={() => this.handleUpdate(obj._id)}
+                                                            title={'Update!'}>
+                                                        <i className="material-icons">update</i>
+                                                    </button>
+                                                </div>
+                                                <div className={styles.button}>
+                                                    <button className={styles.delButton}
+                                                            onClick={() => this.handleDelete(obj._id)}
+                                                            title={'Delete!'}>
+                                                        <i className="material-icons-outlined">delete_forever</i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                }
+                            </div>
+                            : <h1>403 forbidden</h1>
+                        }
+                    </div>
+                }
             </div>
         )
     }

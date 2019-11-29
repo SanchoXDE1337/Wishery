@@ -30,7 +30,6 @@ interface IState {
     data: TDataItem[] | null
     textareaValue: string
     isAuth: boolean
-    // token?: string
 }
 
 
@@ -41,16 +40,18 @@ class _Comments extends React.Component<IProps, IState> {
         isAuth: this.props.isAuth
     }
 
-    /*static getDerivedStateFromProps(nextProps: Readonly<IProps>, prevState: IState) {
-        const {token} = nextProps
-        if (!token) return {...prevState, isAuth: false}
-        return {...prevState, isAuth: true}
-    }*/
-
-    async componentDidMount() {
-        const data = (await axios(`/api/comments/${this.props.postId}`)).data
-        if (data !== null) {
-            this.setState({data})
+    async componentDidUpdate(prevProps: Readonly<IProps>, prevState: IState) {
+        const {token} = this.props
+        const {isAuth} = this.state
+        try {
+            await axios(`/api/user/isAuth`, {headers: {'auth-token': token}})
+            if (!isAuth) {
+                this.setState({isAuth: true})
+            }
+        } catch (e) {
+            if (isAuth) {
+                this.setState({isAuth: false})
+            }
         }
     }
 
@@ -88,14 +89,14 @@ class _Comments extends React.Component<IProps, IState> {
                     {!this.state.isAuth
                         ? <div className={styles.buttonContainer}>
                             {login && <LoginDialog login={login}/>} or <RegisterDialog/>
-                            to leave a comment
+                            {` `} to leave a comment
                         </div>
                         : <Form reply>
                             <Form.TextArea onChange={(e: any) => this.handleTextAreaChange(e)}
                                            value={this.state.textareaValue}
                                            placeholder={'Type your reply here'}
                             />
-                            <Button content='Add Reply' labelPosition='left' icon='edit' primary
+                            <Button content='Add Reply' labelPosition='left' icon='edit' basic
                                     onClick={this.handleSubmit}
                             />
                         </Form>
