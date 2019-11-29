@@ -10,6 +10,10 @@ const CommentSchema = mongoose.Schema({
             type: String,
             required: true
         },
+        authorID: {
+            type: String,
+            required: true
+        },
         text: {
             type: String,
             required: true

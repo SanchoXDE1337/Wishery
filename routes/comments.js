@@ -16,9 +16,10 @@ router.get('/:id', async (req, res) => {
 
 
 router.post('/:id', verify, async (req, res) => {
-    const author = (await User.findById(req.body.author)).username
+    const author = (await User.findById(req.body.authorID)).username
     const commentToAdd = {
         author,
+        authorID: req.body.authorID,
         text: req.body.text,
     }
     try {
@@ -40,4 +41,4 @@ router.post('/:id', verify, async (req, res) => {
     }
 })
 
-module.exports = router
+module.exports = router;

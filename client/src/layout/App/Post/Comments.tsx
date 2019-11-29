@@ -14,6 +14,7 @@ type TDataItem = {
     author: string
     text: string
     date: string
+    authorID: string
 }
 
 interface IProps {
@@ -36,7 +37,7 @@ interface IState {
 class _Comments extends React.Component<IProps, IState> {
     state = {
         textareaValue: '',
-        data: this.props.comments || [],
+        data: this.props.comments || null,
         isAuth: this.props.isAuth
     }
 
@@ -60,10 +61,14 @@ class _Comments extends React.Component<IProps, IState> {
         const {token} = this.props
         if (textareaValue && token) {
             const res: TDataItem = (await axios.post(`/api/comments/${this.props.postId}`, {
-                author: this.props.id,
+                authorID: this.props.id,
                 text: textareaValue
             }, {headers: {'auth-token': token}})).data
-            this.setState({data: [...this.state.data, res], textareaValue: ''})
+            if (this.state.data) {
+                this.setState({data: [...this.state.data, res], textareaValue: ''})
+            } else {
+                this.setState({data: [res], textareaValue: ''})
+            }
         }
     }
 
@@ -72,21 +77,23 @@ class _Comments extends React.Component<IProps, IState> {
     }
 
     render() {
-        const {login} = this.props;
+        const {login} = this.props
+        const {data, isAuth} = this.state
         return (
             <div>
                 <Comment.Group className={styles.comments}>
                     <Header as='h3' dividing>
                         Comments
                     </Header>
-                    {this.state.data
-                        ? this.state.data.map((comment: TDataItem) => <Commentary key={comment.date}
-                                                                                  author={comment.author}
-                                                                                  text={comment.text}
-                                                                                  date={comment.date}/>)
+                    {data
+                        ? data.map((comment: TDataItem) => <Commentary key={comment.date}
+                                                                       authorID={comment.authorID}
+                                                                       author={comment.author}
+                                                                       text={comment.text}
+                                                                       date={comment.date}/>)
                         : <p>You will be the first!</p>
                     }
-                    {!this.state.isAuth
+                    {!isAuth
                         ? <div className={styles.buttonContainer}>
                             {login && <LoginDialog login={login}/>} or <RegisterDialog/>
                             {` `} to leave a comment

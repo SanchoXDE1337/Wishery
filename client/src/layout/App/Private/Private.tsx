@@ -53,7 +53,6 @@ class _Private extends React.Component<IProps, IState> {
     async componentDidUpdate(prevProps: Readonly<IProps>, prevState: IState) {
         const {token} = this.props
         const {isAuth} = this.state
-        console.log(0)
         try {
             await axios(`/api/user/isAuth`, {headers: {'auth-token': token}})
             if (!isAuth) {
@@ -72,8 +71,9 @@ class _Private extends React.Component<IProps, IState> {
 
     handleDelete = async (id: string) => {
         let confirmation = window.confirm('Are you sure want to delete this wish?')
+        const {data} = this.state
         if (confirmation) {
-            const result = this.state.data.filter((obj: TDataItem) => obj._id !== id)
+            const result = data.filter((obj: TDataItem) => obj._id !== id)
             this.setState({data: result})
             await axios.delete(`/api/posts/${id}`)
         }
@@ -81,71 +81,69 @@ class _Private extends React.Component<IProps, IState> {
 
     render() {
         const {isAuth, loading, data} = this.state
-        return (
-            <div>
-                {loading
-                    ? <div className={styles.loader}>
-                        <HashLoader
-                            sizeUnit={"px"}
-                            size={150}
-                            color={'#36d7b7'}
-                            loading={loading}
-                        />
-                    </div>
-                    : <div className={styles.content}>
-                        {isAuth
-                            ? <div>
-                                <div>
+        return <div>
+            {loading
+                ? <div className={styles.loader}>
+                    <HashLoader
+                        sizeUnit={"px"}
+                        size={150}
+                        color={'#36d7b7'}
+                        loading={loading}
+                    />
+                </div>
+                : <div className={styles.content}>
+                    {isAuth
+                        ? <div>
+                            <div>
+                                <div className={styles.addButton}>
+                                    <Button
+                                        onClick={() => historyService.history!.push('/private/settings')}
+                                    ><i className="material-icons">build</i> Settings </Button>
+                                </div>
+                            </div>
+                            {data.length === 0
+                                ? <div>
+                                    <h2>You have not any wishes :(</h2>
                                     <div className={styles.addButton}>
                                         <Button
-                                            onClick={() => historyService.history!.push('/private/settings')}
-                                        ><i className="material-icons">build</i> Settings </Button>
+                                            onClick={() => historyService.history!.push('/posts/add')}
+                                        ><span className={styles.plus}>+</span>Add new Wish!</Button>
                                     </div>
                                 </div>
-                                {!data
-                                    ? <div>
-                                        <h2>You have not any wishes :(</h2>
-                                        <div className={styles.addButton}>
-                                            <Button
-                                                onClick={() => historyService.history!.push('/posts/add')}
-                                            ><span className={styles.plus}>+</span>Add new Wish!</Button>
-                                        </div>
-                                    </div>
-                                    : <div>
-                                        <h2>Here you can Update & Delete your Wishes</h2>
-                                        {this.state.data.map((obj: TDataItem) =>
-                                            <div className={styles.container} key={obj._id}>
-                                                <Card
-                                                    style={{marginBottom: 0}}
-                                                    theme={obj.theme}
-                                                    url={`/posts/${obj._id}`}
-                                                    title={obj.title}
-                                                />
-                                                <div className={styles.button}>
-                                                    <button className={styles.delButton}
-                                                            onClick={() => this.handleUpdate(obj._id)}
-                                                            title={'Update!'}>
-                                                        <i className="material-icons">update</i>
-                                                    </button>
-                                                </div>
-                                                <div className={styles.button}>
-                                                    <button className={styles.delButton}
-                                                            onClick={() => this.handleDelete(obj._id)}
-                                                            title={'Delete!'}>
-                                                        <i className="material-icons-outlined">delete_forever</i>
-                                                    </button>
-                                                </div>
+                                : <div>
+                                    <h2>Here you can Update & Delete your Wishes</h2>
+                                    {data.map((obj: TDataItem) =>
+                                        <div className={styles.container} key={obj._id}>
+                                            <Card
+                                                style={{marginBottom: 0}}
+                                                theme={obj.theme}
+                                                url={`/posts/${obj._id}`}
+                                                title={obj.title}
+                                            />
+                                            <div className={styles.button}>
+                                                <button className={styles.delButton}
+                                                        onClick={() => this.handleUpdate(obj._id)}
+                                                        title={'Update!'}>
+                                                    <i className="material-icons">update</i>
+                                                </button>
                                             </div>
-                                        )}
-                                    </div>
-                                }
-                            </div>
-                            : <h1>403 forbidden</h1>
-                        }
-                    </div>
-                }
-            </div>
-        )
+                                            <div className={styles.button}>
+                                                <button className={styles.delButton}
+                                                        onClick={() => this.handleDelete(obj._id)}
+                                                        title={'Delete!'}>
+                                                    <i className="material-icons-outlined">delete_forever</i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            }
+                        </div>
+                        : <h1>403 forbidden</h1>
+                    }
+                </div>
+            }
+        </div>
     }
 }
 
