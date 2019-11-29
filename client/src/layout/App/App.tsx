@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Header/styles.module.scss'
+import styles from './styles.module.scss'
 import Header from './Header'
 import {Switch, Route} from 'react-router-dom'
 import Private from './Private/Private'

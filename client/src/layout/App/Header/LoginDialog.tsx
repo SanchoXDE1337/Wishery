@@ -1,6 +1,6 @@
 import React from 'react'
 import Dialog from 'rc-dialog'
-import styles from '../../../styles.module.scss'
+import styles from './styles.module.scss'
 import Button from '../../../components/Button'
 import axios from 'axios'
 import {Field, Form} from 'react-final-form'
