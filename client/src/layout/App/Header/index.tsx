@@ -83,9 +83,7 @@ class HeaderWithoutRedux extends React.Component<IProps, IState> {
                             ) : (
                                 <>
                                     <Dropdown.Item>{login && <LoginDialog login={login} />}</Dropdown.Item>
-                                    <Dropdown.Item>
-                                        <RegisterDialog />
-                                    </Dropdown.Item>
+                                    <Dropdown.Item>{login && <RegisterDialog login={login} />}</Dropdown.Item>
                                 </>
                             )}
                         </Dropdown.Menu>

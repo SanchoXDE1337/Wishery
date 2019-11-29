@@ -104,7 +104,7 @@ class CommentsWithoutRedux extends React.Component<IProps, IState> {
                     )}
                     {!isAuth ? (
                         <div className={styles.buttonContainer}>
-                            {login && <LoginDialog login={login} />} or <RegisterDialog />
+                            {login && <LoginDialog login={login} />} or {login && <RegisterDialog login={login} />}
                             {` `} to leave a comment
                         </div>
                     ) : (

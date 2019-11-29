@@ -13,12 +13,16 @@ interface IForm {
     confirm?: string
 }
 
+interface IProps {
+    login: (token: string, id: string) => void
+}
+
 interface IState {
     visible?: boolean
     errorFromServer?: string
 }
 
-export default class RegisterDialog extends React.Component<IState> {
+export default class RegisterDialog extends React.Component<IProps, IState> {
     state = {visible: false, errorFromServer: ''}
 
     handleOpenDialog = () => this.setState({visible: true})
@@ -41,15 +45,18 @@ export default class RegisterDialog extends React.Component<IState> {
     onSubmit = async (values: IForm) => {
         try {
             const {email, password, username} = values
-            const res = await axios.post('/api/user/register', {email, password, username})
-            console.log(res)
+            const {login} = this.props
+            await axios.post('/api/user/register', {email, password, username})
+            const name = username
+            const response = await axios.post('/api/user/login', {name, password})
+            const [token, id] = response.data
+            login(token, id)
             this.setState({visible: false, errorFromServer: ''})
             alert('You have successfully registered!')
         } catch (e) {
             this.setState({errorFromServer: e.response.data})
         }
     }
-
     render() {
         const {visible} = this.state
         return (
