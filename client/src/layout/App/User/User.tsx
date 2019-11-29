@@ -1,8 +1,8 @@
-import React from 'react';
-import axios from "axios";
+import React from 'react'
+import axios from 'axios'
 import HashLoader from 'react-spinners/HashLoader'
 import styles from './styles.module.scss'
-import UserCard from "./UserCard";
+import UserCard from './UserCard'
 
 interface IProps {
     match?: any
@@ -13,16 +13,15 @@ type TDataItem = {
     instagram?: string
     telegram?: string
     age?: number
-    username: string,
+    username: string
     date: string
-    imgUrl?:string
+    imgUrl?: string
 }
 
 interface IState {
-    data: TDataItem | null,
+    data: TDataItem | null
     loading: boolean
 }
-
 
 class User extends React.Component<IProps, IState> {
     state = {
@@ -33,44 +32,56 @@ class User extends React.Component<IProps, IState> {
             telegram: '',
             age: undefined,
             imgUrl: '',
-            date: ''
+            date: '',
         },
-        loading: true
+        loading: true,
     }
 
     async componentDidMount() {
         const data = (await axios(`/api/user/${this.props.match.params.id}`)).data
         const {vk, instagram, telegram} = data.info.contacts
-        window.setTimeout(() => this.setState({
-            data: {
-                vk,
-                instagram,
-                telegram,
-                age: data.info.age,
-                username: data.username,
-                date: data.date,
-                imgUrl: data.info.imgUrl
-            }, loading: false
-        }), 1000)
+        window.setTimeout(
+            () =>
+                this.setState({
+                    data: {
+                        vk,
+                        instagram,
+                        telegram,
+                        age: data.info.age,
+                        username: data.username,
+                        date: data.date,
+                        imgUrl: data.info.imgUrl,
+                    },
+                    loading: false,
+                }),
+            1000,
+        )
     }
 
     render() {
-        const {data: {vk, instagram, telegram, age, username, date, imgUrl}, loading} = this.state
+        const {
+            data: {vk, instagram, telegram, age, username, date, imgUrl},
+            loading,
+        } = this.state
         return (
             <div>
-                {loading
-                    ? <div className={styles.loader}>
-                        <HashLoader
-                            sizeUnit={"px"}
-                            size={150}
-                            color={'#36d7b7'}
-                            loading={this.state.loading}
+                {loading ? (
+                    <div className={styles.loader}>
+                        <HashLoader sizeUnit={'px'} size={150} color={'#36d7b7'} loading={this.state.loading} />
+                    </div>
+                ) : (
+                    <div className={styles.content}>
+                        <UserCard
+                            username={username}
+                            age={age}
+                            vk={vk}
+                            instagram={instagram}
+                            telegram={telegram}
+                            date={date}
+                            imgUrl={imgUrl}
                         />
                     </div>
-                    : <div className={styles.content}>
-                        <UserCard username={username} age={age} vk={vk} instagram={instagram} telegram={telegram}
-                                  date={date} imgUrl={imgUrl}/>
-                    </div>}
+                )}
             </div>
         )
     }

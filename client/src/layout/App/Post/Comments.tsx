@@ -2,13 +2,13 @@ import React from 'react'
 import {Button, Comment, Form, Header} from 'semantic-ui-react'
 import axios from 'axios'
 import Commentary from './Comment'
-import {IStore} from "../../../store/reducers"
-import {connect} from "react-redux"
+import {IStore} from '../../../store/reducers'
+import {connect} from 'react-redux'
 import styles from './styles.module.scss'
-import LoginDialog from "../Header/LoginDialog";
-import RegisterDialog from "../Header/RegisterDialog";
-import {Dispatch} from "redux";
-import {login} from "../../../store/actions";
+import LoginDialog from '../Header/LoginDialog'
+import RegisterDialog from '../Header/RegisterDialog'
+import {Dispatch} from 'redux'
+import {login} from '../../../store/actions'
 
 type TDataItem = {
     author: string
@@ -21,11 +21,10 @@ interface IProps {
     login?: (token: string, id: string) => void
     postId: string
     comments: TDataItem[]
-    id?: string,
+    id?: string
     token?: string
     isAuth: boolean
 }
-
 
 interface IState {
     data: TDataItem[] | null
@@ -33,15 +32,14 @@ interface IState {
     isAuth: boolean
 }
 
-
-class _Comments extends React.Component<IProps, IState> {
+class CommentsWithoutRedux extends React.Component<IProps, IState> {
     state = {
         textareaValue: '',
         data: this.props.comments || null,
-        isAuth: this.props.isAuth
+        isAuth: this.props.isAuth,
     }
 
-    async componentDidUpdate(prevProps: Readonly<IProps>, prevState: IState) {
+    async componentDidUpdate() {
         const {token} = this.props
         const {isAuth} = this.state
         try {
@@ -60,10 +58,16 @@ class _Comments extends React.Component<IProps, IState> {
         const {textareaValue} = this.state
         const {token} = this.props
         if (textareaValue && token) {
-            const res: TDataItem = (await axios.post(`/api/comments/${this.props.postId}`, {
-                authorID: this.props.id,
-                text: textareaValue
-            }, {headers: {'auth-token': token}})).data
+            const res: TDataItem = (
+                await axios.post(
+                    `/api/comments/${this.props.postId}`,
+                    {
+                        authorID: this.props.id,
+                        text: textareaValue,
+                    },
+                    {headers: {'auth-token': token}},
+                )
+            ).data
             if (this.state.data) {
                 this.setState({data: [...this.state.data, res], textareaValue: ''})
             } else {
@@ -82,32 +86,43 @@ class _Comments extends React.Component<IProps, IState> {
         return (
             <div>
                 <Comment.Group className={styles.comments}>
-                    <Header as='h3' dividing>
+                    <Header as="h3" dividing>
                         Comments
                     </Header>
-                    {data
-                        ? data.map((comment: TDataItem) => <Commentary key={comment.date}
-                                                                       authorID={comment.authorID}
-                                                                       author={comment.author}
-                                                                       text={comment.text}
-                                                                       date={comment.date}/>)
-                        : <p>You will be the first!</p>
-                    }
-                    {!isAuth
-                        ? <div className={styles.buttonContainer}>
-                            {login && <LoginDialog login={login}/>} or <RegisterDialog/>
+                    {data ? (
+                        data.map((comment: TDataItem) => (
+                            <Commentary
+                                key={comment.date}
+                                authorID={comment.authorID}
+                                author={comment.author}
+                                text={comment.text}
+                                date={comment.date}
+                            />
+                        ))
+                    ) : (
+                        <p>You will be the first!</p>
+                    )}
+                    {!isAuth ? (
+                        <div className={styles.buttonContainer}>
+                            {login && <LoginDialog login={login} />} or <RegisterDialog />
                             {` `} to leave a comment
                         </div>
-                        : <Form reply>
-                            <Form.TextArea onChange={(e: any) => this.handleTextAreaChange(e)}
-                                           value={this.state.textareaValue}
-                                           placeholder={'Type your reply here'}
+                    ) : (
+                        <Form reply>
+                            <Form.TextArea
+                                onChange={(e: any) => this.handleTextAreaChange(e)}
+                                value={this.state.textareaValue}
+                                placeholder={'Type your reply here'}
                             />
-                            <Button content='Add Reply' labelPosition='left' icon='edit' basic
-                                    onClick={this.handleSubmit}
+                            <Button
+                                content="Add Reply"
+                                labelPosition="left"
+                                icon="edit"
+                                basic
+                                onClick={this.handleSubmit}
                             />
                         </Form>
-                    }
+                    )}
                 </Comment.Group>
             </div>
         )
@@ -116,9 +131,9 @@ class _Comments extends React.Component<IProps, IState> {
 
 const mapStateToProps = ({accountStore: {id, token}}: IStore) => ({id, token})
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    login: (token: string, id: string) => dispatch(login(token, id))
+    login: (token: string, id: string) => dispatch(login(token, id)),
 })
 
-const Comments = connect(mapStateToProps, mapDispatchToProps)(_Comments)
+const Comments = connect(mapStateToProps, mapDispatchToProps)(CommentsWithoutRedux)
 
 export default Comments

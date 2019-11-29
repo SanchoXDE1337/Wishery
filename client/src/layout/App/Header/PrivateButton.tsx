@@ -1,16 +1,9 @@
-import Button from "../../../components/Button";
-import React from "react";
-import historyServicse from "../../../services/historyService";
+import Button from '../../../components/Button'
+import React from 'react'
+import historyServise from '../../../services/historyService'
 
-interface IProps {
-}
-
-interface IState {
-}
-
-export default class PrivateButton extends React.Component<IProps, IState> {
-    handleClick = () => historyServicse.history!.push('/private')
-
+export default class PrivateButton extends React.Component {
+    handleClick = () => historyServise.history!.push('/private')
 
     render() {
         return <Button onClick={this.handleClick}>Private Cabinet</Button>

@@ -1,18 +1,18 @@
-import React from 'react';
-import styles from './styles.module.scss';
+import React from 'react'
+import styles from '../../../styles.module.scss'
 import 'rc-dialog/assets/index.css'
 import LoginDialog from './LoginDialog'
-import RegisterDialog from "./RegisterDialog";
+import RegisterDialog from './RegisterDialog'
 import LogoutButton from './LogoutButton'
-import PrivateButton from "./PrivateButton";
-import historyService from "../../../services/historyService";
-import {connect} from "react-redux";
-import {Dispatch} from "redux";
-import {login, logout} from "../../../store/actions";
-import {IStore} from "../../../store/reducers";
+import PrivateButton from './PrivateButton'
+import historyService from '../../../services/historyService'
+import {connect} from 'react-redux'
+import {Dispatch} from 'redux'
+import {login, logout} from '../../../store/actions'
+import {IStore} from '../../../store/reducers'
 import {Dropdown} from 'semantic-ui-react'
-import axios from "axios";
-import Button from "../../../components/Button";
+import axios from 'axios'
+import Button from '../../../components/Button'
 
 interface IState {
     token?: string
@@ -26,17 +26,16 @@ interface IProps {
     logout?: () => void
 }
 
-
-class _Header extends React.Component<IProps, IState> {
+class HeaderWithoutRedux extends React.Component<IProps, IState> {
     constructor(props: IProps) {
-        super(props);
+        super(props)
         this.state = {token: props.token, isAuth: false}
     }
 
     static getDerivedStateFromProps(nextProps: Readonly<IProps>, prevState: IState) {
         const {token} = nextProps
         if (!token) return {...prevState, isAuth: false}
-        return (token !== prevState.token) ? {...prevState, token} : null
+        return token !== prevState.token ? {...prevState, token} : null
     }
 
     authenticate = async () => {
@@ -55,43 +54,40 @@ class _Header extends React.Component<IProps, IState> {
         await this.authenticate()
     }
 
-
-    async componentDidUpdate(prevProps: Readonly<IProps>, prevState: IState) {
+    async componentDidUpdate() {
         await this.authenticate()
     }
 
-    handleClickToLogo = () => historyService.history!.push('/');
+    handleClickToLogo = () => historyService.history!.push('/')
 
     render() {
-        const {login, logout} = this.props;
+        const {login, logout} = this.props
         return (
             <div className={styles.root}>
-                <div onClick={this.handleClickToLogo} className={styles.title}>WISHERY</div>
+                <div onClick={this.handleClickToLogo} className={styles.title}>
+                    WISHERY
+                </div>
                 <div className={styles.searchButton}>
-                    <Button
-                        onClick={() => historyService.history!.push('/user/')}
-                    >Search users!</Button>
+                    <Button onClick={() => historyService.history!.push('/user/')}>Search users!</Button>
                 </div>
                 <div className={styles.buttonSet}>
-                    <Dropdown text='Account'>
+                    <Dropdown text="Account">
                         <Dropdown.Menu direction={'left'}>
-                            {this.state.isAuth
-                                ? <>
+                            {this.state.isAuth ? (
+                                <>
                                     <Dropdown.Item>
-                                        <PrivateButton/>
+                                        <PrivateButton />
                                     </Dropdown.Item>
+                                    <Dropdown.Item>{logout && <LogoutButton logout={logout} />}</Dropdown.Item>
+                                </>
+                            ) : (
+                                <>
+                                    <Dropdown.Item>{login && <LoginDialog login={login} />}</Dropdown.Item>
                                     <Dropdown.Item>
-                                        {logout && <LogoutButton logout={logout}/>}
+                                        <RegisterDialog />
                                     </Dropdown.Item>
                                 </>
-                                : <>
-                                    <Dropdown.Item>
-                                        {login && <LoginDialog login={login}/>}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item>
-                                        <RegisterDialog/>
-                                    </Dropdown.Item>
-                                </>}
+                            )}
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
@@ -107,6 +103,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     logout: () => dispatch(logout()),
 })
 
-const Header = connect(mapStateToProps, mapDispatchToProps)(_Header)
+const Header = connect(mapStateToProps, mapDispatchToProps)(HeaderWithoutRedux)
 
 export default Header

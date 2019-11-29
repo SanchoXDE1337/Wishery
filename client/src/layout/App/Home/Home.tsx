@@ -1,17 +1,17 @@
-import React from 'react';
-import axios from "axios";
-import Card from "../../../components/Card/Card";
-import {Form as UIForm} from "semantic-ui-react";
-import InputWithIcon from "../../../components/SearchInput";
-import styles from "./styles.module.scss"
-import Button from "../../../components/Button";
-import historyService from "../../../services/historyService";
-import {connect} from "react-redux";
-import {IStore} from "../../../store/reducers";
-import HashLoader from "react-spinners/HashLoader";
+import React from 'react'
+import axios from 'axios'
+import Card from '../../../components/Card/Card'
+import {Form as UIForm} from 'semantic-ui-react'
+import InputWithIcon from '../../../components/SearchInput'
+import styles from './styles.module.scss'
+import Button from '../../../components/Button'
+import historyService from '../../../services/historyService'
+import {connect} from 'react-redux'
+import {IStore} from '../../../store/reducers'
+import HashLoader from 'react-spinners/HashLoader'
 
 interface IProps {
-    token?:string
+    token?: string
 }
 
 type TDataItem = {
@@ -32,14 +32,13 @@ interface IState {
     loading: boolean
 }
 
-
-class _Home extends React.Component<IProps, IState> {
+class HomeWithoutRedux extends React.Component<IProps, IState> {
     state = {
         isAuth: false,
         data: [],
         selectValue: '',
         inputValue: '',
-        loading: true
+        loading: true,
     }
 
     async componentDidMount() {
@@ -48,7 +47,7 @@ class _Home extends React.Component<IProps, IState> {
         window.setTimeout(() => this.setState({data, loading: false}), 900)
     }
 
-    async componentDidUpdate(prevProps: Readonly<IProps>, prevState: IState) {
+    async componentDidUpdate() {
         const {token} = this.props
         const {isAuth} = this.state
         console.log(0)
@@ -82,58 +81,54 @@ class _Home extends React.Component<IProps, IState> {
                 return item
             }
         })
-        const filteredData: TDataItem[] = filteredByInput.filter(
-            (item: TDataItem) => selectValue ? item.theme === selectValue : item)
+        const filteredData: TDataItem[] = filteredByInput.filter((item: TDataItem) =>
+            selectValue ? item.theme === selectValue : item,
+        )
         return (
             <>
-            {loading
-                ? <div className={styles.loader}>
-                    <HashLoader
-                        sizeUnit={"px"}
-                        size={150}
-                        color={'#36d7b7'}
-                        loading={loading}
-                    />
-                </div>
-                : <div className={styles.content}>
-                    {this.state.isAuth
-                        ? <div className={styles.addButton}>
-                            <Button
-                                onClick={() => historyService.history!.push('/posts/add')}
-                            ><span className={styles.plus}>+</span>Add new Wish!</Button>
-                        </div>
-                        : null
-                    }
-                    <div className={styles.search}>
-                        <InputWithIcon onChange={(event: any) => this.handleInputChange(event)}/>
+                {loading ? (
+                    <div className={styles.loader}>
+                        <HashLoader sizeUnit={'px'} size={150} color={'#36d7b7'} loading={loading} />
                     </div>
-                    <UIForm className={styles.search}>
-                        <label>Theme of wishes: </label>
-                        <select onChange={(event: any) => this.handleSelectChange(event)}>
-                            <option value="">All</option>
-                            <option value="Drink">Drink</option>
-                            <option value="Walk">Walk</option>
-                            <option value="Cinema">Cinema</option>
-                            <option value="Concert">Concert</option>
-                            <option value="Outdoors">Outdoors</option>
-                            <option value="Chill">Chill</option>
-                            <option value="Travel">Travel</option>
-                            <option value="Game">Game</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </UIForm>
-                    {filteredData.map((obj: TDataItem) =>
-                        <Card
-                            author={obj.author}
-                            authorID={obj.authorID}
-                            url={`/posts/${obj._id}`}
-                            theme={obj.theme}
-                            title={obj.title}
-                            key={obj.author + obj.description + obj.title}
-                        />
-                    )}
-                </div>
-            }
+                ) : (
+                    <div className={styles.content}>
+                        {this.state.isAuth ? (
+                            <div className={styles.addButton}>
+                                <Button onClick={() => historyService.history!.push('/posts/add')}>
+                                    <span className={styles.plus}>+</span>Add new Wish!
+                                </Button>
+                            </div>
+                        ) : null}
+                        <div className={styles.search}>
+                            <InputWithIcon onChange={(event: any) => this.handleInputChange(event)} />
+                        </div>
+                        <UIForm className={styles.search}>
+                            <label>Theme of wishes: </label>
+                            <select onChange={(event: any) => this.handleSelectChange(event)}>
+                                <option value="">All</option>
+                                <option value="Drink">Drink</option>
+                                <option value="Walk">Walk</option>
+                                <option value="Cinema">Cinema</option>
+                                <option value="Concert">Concert</option>
+                                <option value="Outdoors">Outdoors</option>
+                                <option value="Chill">Chill</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Game">Game</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </UIForm>
+                        {filteredData.map((obj: TDataItem) => (
+                            <Card
+                                author={obj.author}
+                                authorID={obj.authorID}
+                                url={`/posts/${obj._id}`}
+                                theme={obj.theme}
+                                title={obj.title}
+                                key={obj.author + obj.description + obj.title}
+                            />
+                        ))}
+                    </div>
+                )}
             </>
         )
     }
@@ -141,6 +136,6 @@ class _Home extends React.Component<IProps, IState> {
 
 const mapStateToProps = ({accountStore: {id, token}}: IStore) => ({id, token})
 
-const Home = connect(mapStateToProps)(_Home)
+const Home = connect(mapStateToProps)(HomeWithoutRedux)
 
 export default Home

@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "../styles.module.scss";
+import React from 'react'
+import styles from '../Header/styles.module.scss'
 
 const Footer: React.FC = () => <div className={styles.footer}>© Wishery</div>
 

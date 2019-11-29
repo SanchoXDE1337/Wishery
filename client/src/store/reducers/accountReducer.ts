@@ -1,15 +1,13 @@
-import {actionTypes, IAction} from "../actions";
-
+import {actionTypes, IAction} from '../actions'
 
 const accountReducer = (state = {}, {type, ...payload}: IAction) => {
     switch (type) {
         case actionTypes.LOGIN:
-            return {...state, ...payload};
+            return {...state, ...payload}
         case actionTypes.LOGOUT:
-            return {...state, id: undefined, token: undefined};
+            return {...state, id: undefined, token: undefined}
         default:
             return state
     }
 }
-
 export default accountReducer

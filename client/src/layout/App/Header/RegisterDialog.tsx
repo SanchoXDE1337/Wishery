@@ -1,14 +1,10 @@
-import React from 'react';
-import Dialog from "rc-dialog";
-import styles from "./styles.module.scss";
-import Button from "../../../components/Button";
-import axios from "axios";
+import React from 'react'
+import Dialog from 'rc-dialog'
+import Button from '../../../components/Button'
+import axios from 'axios'
 import {Form, Field} from 'react-final-form'
 import {Form as UIForm} from 'semantic-ui-react'
-
-
-interface IProps {
-}
+import styles from './styles.module.scss'
 
 interface IForm {
     username?: string
@@ -18,34 +14,34 @@ interface IForm {
 }
 
 interface IState {
-    visible: boolean
+    visible?: boolean
     errorFromServer?: string
 }
 
+export default class RegisterDialog extends React.Component<IState> {
+    state = {visible: false, errorFromServer: ''}
 
-export default class RegisterDialog extends React.Component<IProps, IState> {
-    state = {visible: false, errorFromServer: ''};
-
-    handleOpenDialog = () => this.setState({visible: true});
+    handleOpenDialog = () => this.setState({visible: true})
 
     handleCloseDialog = () => this.setState({visible: false, errorFromServer: ''})
 
     usernameChange = () => {
-        if (this.state.errorFromServer === "Username already exists") {
+        if (this.state.errorFromServer === 'Username already exists') {
             this.setState({errorFromServer: ''})
         }
     }
 
     emailChange = () => {
-        if (this.state.errorFromServer === "Email already exists" || '"email" must be a valid email') {
+        const {errorFromServer} = this.state
+        if (errorFromServer === 'Email already exists' || errorFromServer === '"email" must be a valid email') {
             this.setState({errorFromServer: ''})
         }
     }
 
     onSubmit = async (values: IForm) => {
         try {
-            const {email, password, username} = values;
-            const res = await axios.post('/api/user/register', {email, password, username});
+            const {email, password, username} = values
+            const res = await axios.post('/api/user/register', {email, password, username})
             console.log(res)
             this.setState({visible: false, errorFromServer: ''})
             alert('You have successfully registered!')
@@ -55,113 +51,143 @@ export default class RegisterDialog extends React.Component<IProps, IState> {
     }
 
     render() {
-        const {visible} = this.state;
-        return <>
-            <Button onClick={this.handleOpenDialog}>Register</Button>
-            <Dialog
-                title={'Register'}
-                onClose={this.handleCloseDialog}
-                visible={visible}
-            >
-                <div className={styles.registration}>
-                    <Form
-                        onSubmit={this.onSubmit}
-                        validate={(values: IForm) => {
-                            const errors: IForm = {}
-                            if (!values.username) {
-                                errors.username = 'Required'
-                            } else if (values.username.length < 3) {
-                                errors.username = 'Username must be over 2 characters'
-                            }
-                            if (!values.email) {
-                                errors.email = 'Required'
-                            } else if (values.email.length < 6) {
-                                errors.email = 'Email must be over 5 characters'
-                            }
-                            if (!values.password) {
-                                errors.password = 'Required'
-                            } else if (values.password.length < 6) {
-                                errors.password = 'Password must be over 5 characters'
-                            }
-                            if (!values.confirm) {
-                                errors.confirm = 'Required'
-                            } else if (values.confirm !== values.password) {
-                                errors.confirm = 'Must match'
-                            }
-                            switch (this.state.errorFromServer) {
-                                case "Username already exists": {
-                                    errors.username = "Username already exists"
-                                    break
+        const {visible} = this.state
+        return (
+            <>
+                <Button onClick={this.handleOpenDialog}>Register</Button>
+                <Dialog title={'Register'} onClose={this.handleCloseDialog} visible={visible}>
+                    <div className={styles.registration}>
+                        <Form
+                            onSubmit={this.onSubmit}
+                            validate={(values: IForm) => {
+                                const errors: IForm = {}
+                                if (!values.username) {
+                                    errors.username = 'Required'
+                                } else if (values.username.length < 3) {
+                                    errors.username = 'Username must be over 2 characters'
                                 }
-                                case '"email" must be a valid email': {
-                                    errors.email = "Email must be a valid"
-                                    break
+                                if (!values.email) {
+                                    errors.email = 'Required'
+                                } else if (values.email.length < 6) {
+                                    errors.email = 'Email must be over 5 characters'
                                 }
-                                case "Email already exists": {
-                                    errors.email = "Email already exists"
-                                    break
+                                if (!values.password) {
+                                    errors.password = 'Required'
+                                } else if (values.password.length < 6) {
+                                    errors.password = 'Password must be over 5 characters'
                                 }
-                            }
-                            return errors
-                        }}
-                        render={({handleSubmit, form, submitting, pristine, hasValidationErrors, hasSubmitErrors}) => (
-                            <UIForm onSubmit={handleSubmit}>
-                                {!this.state.visible ? window.setTimeout(form.reset, 100) : null} {/* Reset form on close */}
-                                <Field name="username">
-                                    {({input, meta}) => (
-                                        <div>
-                                            <label>Username</label>
-                                            <input {...input} type="text" placeholder="Username"
-                                                   onClick={this.usernameChange}
-                                                   className={meta.error && meta.touched ? styles.errorField : ''}/>
-                                            {meta.error && meta.touched &&
-                                            <span className={styles.error}>{meta.error}</span>}
-                                        </div>
-                                    )}
-                                </Field>
-                                <Field name="email">
-                                    {({input, meta}) => (
-                                        <div>
-                                            <label>Email</label>
-                                            <input {...input} type="text" placeholder="Email"
-                                                   onClick={this.emailChange}
-                                                   className={meta.error && meta.touched ? styles.errorField : ''}/>
-                                            {meta.error && meta.touched &&
-                                            <span className={styles.error}>{meta.error}</span>}
-                                        </div>
-                                    )}
-                                </Field>
-                                <Field name="password">
-                                    {({input, meta}) => (
-                                        <div>
-                                            <label>Password</label>
-                                            <input {...input} type="password" placeholder="Password"
-                                                   className={meta.error && meta.touched ? styles.errorField : ''}/>
-                                            {meta.error && meta.touched &&
-                                            <span className={styles.error}>{meta.error}</span>}
-                                        </div>
-                                    )}
-                                </Field>
-                                <Field name="confirm">
-                                    {({input, meta}) => (
-                                        <div>
-                                            <label>Confirm password</label>
-                                            <input {...input} type="password" placeholder="Confirm password"
-                                                   className={meta.error && meta.touched ? styles.errorField : ''}/>
-                                            {meta.error && meta.touched &&
-                                            <span className={styles.error}>{meta.error}</span>}
-                                        </div>
-                                    )}
-                                </Field>
-                                <div className={styles.row}>
-                                    <Button type={'submit'}
-                                            disabled={submitting || pristine || hasValidationErrors || hasSubmitErrors}>Register</Button>
-                                </div>
-                            </UIForm>
-                        )}
-                    />
-                </div>
-            </Dialog>
-        </>
+                                if (!values.confirm) {
+                                    errors.confirm = 'Required'
+                                } else if (values.confirm !== values.password) {
+                                    errors.confirm = 'Must match'
+                                }
+                                switch (this.state.errorFromServer) {
+                                    case 'Username already exists': {
+                                        errors.username = 'Username already exists'
+                                        break
+                                    }
+                                    case '"email" must be a valid email': {
+                                        errors.email = 'Email must be a valid'
+                                        break
+                                    }
+                                    case 'Email already exists': {
+                                        errors.email = 'Email already exists'
+                                        break
+                                    }
+                                }
+                                return errors
+                            }}
+                            render={({
+                                handleSubmit,
+                                form,
+                                submitting,
+                                pristine,
+                                hasValidationErrors,
+                                hasSubmitErrors,
+                            }) => (
+                                <UIForm onSubmit={handleSubmit}>
+                                    {!this.state.visible ? window.setTimeout(form.reset, 100) : null}{' '}
+                                    {/* Reset form on close */}
+                                    <Field name="username">
+                                        {({input, meta}) => (
+                                            <div>
+                                                <label>Username</label>
+                                                <input
+                                                    {...input}
+                                                    type="text"
+                                                    placeholder="Username"
+                                                    onClick={this.usernameChange}
+                                                    className={meta.error && meta.touched ? styles.errorField : ''}
+                                                />
+                                                {meta.error && meta.touched && (
+                                                    <span className={styles.error}>{meta.error}</span>
+                                                )}
+                                            </div>
+                                        )}
+                                    </Field>
+                                    <Field name="email">
+                                        {({input, meta}) => (
+                                            <div>
+                                                <label>Email</label>
+                                                <input
+                                                    {...input}
+                                                    type="text"
+                                                    placeholder="Email"
+                                                    onClick={this.emailChange}
+                                                    className={meta.error && meta.touched ? styles.errorField : ''}
+                                                />
+                                                {meta.error && meta.touched && (
+                                                    <span className={styles.error}>{meta.error}</span>
+                                                )}
+                                            </div>
+                                        )}
+                                    </Field>
+                                    <Field name="password">
+                                        {({input, meta}) => (
+                                            <div>
+                                                <label>Password</label>
+                                                <input
+                                                    {...input}
+                                                    type="password"
+                                                    placeholder="Password"
+                                                    className={meta.error && meta.touched ? styles.errorField : ''}
+                                                />
+                                                {meta.error && meta.touched && (
+                                                    <span className={styles.error}>{meta.error}</span>
+                                                )}
+                                            </div>
+                                        )}
+                                    </Field>
+                                    <Field name="confirm">
+                                        {({input, meta}) => (
+                                            <div>
+                                                <label>Confirm password</label>
+                                                <input
+                                                    {...input}
+                                                    type="password"
+                                                    placeholder="Confirm password"
+                                                    className={meta.error && meta.touched ? styles.errorField : ''}
+                                                />
+                                                {meta.error && meta.touched && (
+                                                    <span className={styles.error}>{meta.error}</span>
+                                                )}
+                                            </div>
+                                        )}
+                                    </Field>
+                                    <div className={styles.row}>
+                                        <Button
+                                            type={'submit'}
+                                            disabled={submitting || pristine || hasValidationErrors || hasSubmitErrors}
+                                        >
+                                            Register
+                                        </Button>
+                                    </div>
+                                </UIForm>
+                            )}
+                        />
+                    </div>
+                </Dialog>
+            </>
+        )
     }
 }

@@ -3,7 +3,6 @@ import {Card} from 'semantic-ui-react'
 import Linkify from 'react-linkify'
 import styles from './styles.module.scss'
 
-
 interface IProps {
     style?: object
     url?: string
@@ -25,7 +24,13 @@ const SimpleCard: React.FC<IProps> = ({title, author, description, url, style, t
             description={
                 <div>
                     <Linkify>
-                        {description && description.split('\n').map((item, key) => <span key={key}>{item}<br/></span>)}
+                        {description &&
+                            description.split('\n').map((item, key) => (
+                                <span key={key}>
+                                    {item}
+                                    <br />
+                                </span>
+                            ))}
                     </Linkify>
                     <div className={styles.author}>
                         <a href={`/user/${authorID}`}>{author} </a>

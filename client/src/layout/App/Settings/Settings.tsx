@@ -1,25 +1,24 @@
-import React from 'react';
-import axios from "axios";
-import {IStore} from "../../../store/reducers";
-import {connect} from "react-redux"
-import AddInfo from "./AddInfo";
+import React from 'react'
+import axios from 'axios'
+import {IStore} from '../../../store/reducers'
+import {connect} from 'react-redux'
+import AddInfo from './AddInfo'
 import styles from './styles.module.scss'
-import HashLoader from "react-spinners/HashLoader";
-import UserCard from "../User/UserCard";
-import ChangePassword from "./ChangePassword";
-
+import HashLoader from 'react-spinners/HashLoader'
+import UserCard from '../User/UserCard'
+import ChangePassword from './ChangePassword'
 
 interface IProps {
-    id?: string,
+    id?: string
     token?: string
 }
 
 type TInfo = {
-    age?: number,
+    age?: number
     imgUrl?: string
     contacts?: {
-        vk?: string,
-        instagram?: string,
+        vk?: string
+        instagram?: string
         telegram?: string
     }
 }
@@ -32,8 +31,7 @@ interface IState {
     info: TInfo
 }
 
-
-class _Settings extends React.Component<IProps, IState> {
+class SettingsWithoutRedux extends React.Component<IProps, IState> {
     state = {
         isAuth: false,
         loading: true,
@@ -45,9 +43,9 @@ class _Settings extends React.Component<IProps, IState> {
             contacts: {
                 vk: '',
                 instagram: '',
-                telegram: ''
-            }
-        }
+                telegram: '',
+            },
+        },
     }
 
     async componentDidMount() {
@@ -60,7 +58,7 @@ class _Settings extends React.Component<IProps, IState> {
             this.setState({
                 username: data.username,
                 date: data.date,
-                info: {age: data.info.age, imgUrl: data.info.imgUrl, contacts: {vk, instagram, telegram}}
+                info: {age: data.info.age, imgUrl: data.info.imgUrl, contacts: {vk, instagram, telegram}},
             })
         } catch (e) {
             this.setState({isAuth: false})
@@ -69,32 +67,45 @@ class _Settings extends React.Component<IProps, IState> {
     }
 
     render() {
-        const {loading, isAuth, username, date, info: {age, imgUrl, contacts: {vk, instagram, telegram,}}} = this.state
+        const {
+            loading,
+            isAuth,
+            username,
+            date,
+            info: {
+                age,
+                imgUrl,
+                contacts: {vk, instagram, telegram},
+            },
+        } = this.state
         return (
             <div>
-                {loading
-                    ? <div className={styles.loader}>
-                        <HashLoader
-                            sizeUnit={"px"}
-                            size={150}
-                            color={'#36d7b7'}
-                            loading={loading}
-                        />
+                {loading ? (
+                    <div className={styles.loader}>
+                        <HashLoader sizeUnit={'px'} size={150} color={'#36d7b7'} loading={loading} />
                     </div>
-                    : isAuth
-                        ? <div className={styles.content}>
-                            <UserCard username={username} age={age} vk={vk} instagram={instagram} telegram={telegram}
-                                      date={date} imgUrl={imgUrl}/>
-                            <h3>Settings:</h3>
-                            <div className={styles.button}>
-                                <AddInfo id={this.props.id} token={this.props.token}/>
-                            </div>
-                            <div className={styles.button}>
-                                <ChangePassword id={this.props.id} token={this.props.token}/>
-                            </div>
+                ) : isAuth ? (
+                    <div className={styles.content}>
+                        <UserCard
+                            username={username}
+                            age={age}
+                            vk={vk}
+                            instagram={instagram}
+                            telegram={telegram}
+                            date={date}
+                            imgUrl={imgUrl}
+                        />
+                        <h3>Settings:</h3>
+                        <div className={styles.button}>
+                            <AddInfo id={this.props.id} token={this.props.token} />
                         </div>
-                        : <h1>403 forbidden</h1>
-                }
+                        <div className={styles.button}>
+                            <ChangePassword id={this.props.id} token={this.props.token} />
+                        </div>
+                    </div>
+                ) : (
+                    <h1>403 forbidden</h1>
+                )}
             </div>
         )
     }
@@ -102,6 +113,6 @@ class _Settings extends React.Component<IProps, IState> {
 
 const mapStateToProps = ({accountStore: {id, token}}: IStore) => ({id, token})
 
-const Settings = connect(mapStateToProps)(_Settings)
+const Settings = connect(mapStateToProps)(SettingsWithoutRedux)
 
 export default Settings

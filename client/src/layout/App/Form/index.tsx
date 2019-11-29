@@ -1,12 +1,11 @@
 import React from 'react'
 import {Form, Field} from 'react-final-form'
 import {Button, Form as UIForm} from 'semantic-ui-react'
-import styles from './styles.module.scss';
-import axios from "axios";
-import historyService from "../../../services/historyService";
-import {IStore} from "../../../store/reducers";
-import {connect} from "react-redux";
-
+import styles from './styles.module.scss'
+import axios from 'axios'
+import historyService from '../../../services/historyService'
+import {IStore} from '../../../store/reducers'
+import {connect} from 'react-redux'
 
 interface IProps {
     match?: any
@@ -31,22 +30,21 @@ interface IState {
     }
 }
 
-
-class _WishForm extends React.Component<IProps, IState> {
+class WishFormWithoutRedux extends React.Component<IProps, IState> {
     state = {
         isAuth: false,
         updating: false,
         data: {
             description: '',
             title: '',
-            theme: ''
-        }
+            theme: '',
+        },
     }
 
     static getDerivedStateFromProps(nextProps: Readonly<IProps>, prevState: IState) {
         const {token} = nextProps
         if (!token) return {...prevState, isAuth: false}
-        return (token !== prevState.token) ? {...prevState, token, isAuth: true} : null
+        return token !== prevState.token ? {...prevState, token, isAuth: true} : null
     }
 
     async componentDidMount() {
@@ -84,11 +82,15 @@ class _WishForm extends React.Component<IProps, IState> {
 
     render() {
         const author = this.props.id
-        const {data: {title, description, theme}, updating, isAuth} = this.state
+        const {
+            data: {title, description, theme},
+            updating,
+            isAuth,
+        } = this.state
         return (
             <div className={styles.root}>
-                {isAuth
-                    ? <Form
+                {isAuth ? (
+                    <Form
                         onSubmit={updating ? this.onUpdate : this.onSubmit}
                         initialValues={{author, title, description, theme}}
                         validate={(values: TItem) => {
@@ -110,10 +112,15 @@ class _WishForm extends React.Component<IProps, IState> {
                                     {({input, meta}) => (
                                         <div>
                                             <label>Your wish</label>
-                                            <input {...input} type="text" placeholder="Type your wish here!"
-                                                   className={meta.error && meta.touched ? styles.errorField : ''}/>
-                                            {meta.error && meta.touched &&
-                                            <span className={styles.error}>{meta.error}</span>}
+                                            <input
+                                                {...input}
+                                                type="text"
+                                                placeholder="Type your wish here!"
+                                                className={meta.error && meta.touched ? styles.errorField : ''}
+                                            />
+                                            {meta.error && meta.touched && (
+                                                <span className={styles.error}>{meta.error}</span>
+                                            )}
                                         </div>
                                     )}
                                 </Field>
@@ -121,10 +128,14 @@ class _WishForm extends React.Component<IProps, IState> {
                                     {({input, meta}) => (
                                         <div>
                                             <label>Description</label>
-                                            <textarea {...input} placeholder="Add some description to your wish!"
-                                                      className={meta.error && meta.touched ? styles.errorField : ''}/>
-                                            {meta.error && meta.touched &&
-                                            <span className={styles.error}>{meta.error}</span>}
+                                            <textarea
+                                                {...input}
+                                                placeholder="Add some description to your wish!"
+                                                className={meta.error && meta.touched ? styles.errorField : ''}
+                                            />
+                                            {meta.error && meta.touched && (
+                                                <span className={styles.error}>{meta.error}</span>
+                                            )}
                                         </div>
                                     )}
                                 </Field>
@@ -132,9 +143,12 @@ class _WishForm extends React.Component<IProps, IState> {
                                     {({input, meta}) => (
                                         <div className={styles.select}>
                                             <label>Theme of your wish</label>
-                                            <select {...input} placeholder={'Choose theme of your wish'}
-                                                    className={meta.error && meta.touched ? styles.errorField : ''}>
-                                                <option/>
+                                            <select
+                                                {...input}
+                                                placeholder={'Choose theme of your wish'}
+                                                className={meta.error && meta.touched ? styles.errorField : ''}
+                                            >
+                                                <option />
                                                 <option value="Drink">Drink</option>
                                                 <option value="Walk">Walk</option>
                                                 <option value="Cinema">Cinema</option>
@@ -145,21 +159,23 @@ class _WishForm extends React.Component<IProps, IState> {
                                                 <option value="Game">Game</option>
                                                 <option value="Other">Other</option>
                                             </select>
-                                            {meta.error && meta.touched &&
-                                            <span className={styles.error}>{meta.error}</span>
-                                            }
+                                            {meta.error && meta.touched && (
+                                                <span className={styles.error}>{meta.error}</span>
+                                            )}
                                         </div>
                                     )}
                                 </Field>
                                 <div className={styles.button}>
-                                    <Button type='submit'
-                                            disabled={submitting || pristine || hasValidationErrors}>Submit</Button>
+                                    <Button type="submit" disabled={submitting || pristine || hasValidationErrors}>
+                                        Submit
+                                    </Button>
                                 </div>
                             </UIForm>
                         )}
                     />
-                    : <h1>403 forbidden</h1>
-                }
+                ) : (
+                    <h1>403 forbidden</h1>
+                )}
             </div>
         )
     }
@@ -167,6 +183,6 @@ class _WishForm extends React.Component<IProps, IState> {
 
 const mapStateToProps = ({accountStore: {id, token}}: IStore) => ({id, token})
 
-const WishForm = connect(mapStateToProps)(_WishForm)
+const WishForm = connect(mapStateToProps)(WishFormWithoutRedux)
 
 export default WishForm
