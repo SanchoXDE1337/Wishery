@@ -1,1 +1,1 @@
-## Be careful, don't go blind!
+## Be careful, don't go blind! :sparkles:
